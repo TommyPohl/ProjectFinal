@@ -24,4 +24,5 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('register/', views.register, name='register'),  # ← přidat sem
     path('admin/', admin.site.urls),
+    path('', include('Bookshelf.urls')),
 ]

@@ -5,7 +5,10 @@
         <div>
             {% if user.is_authenticated %}
                 <span class="text-light me-2">Přihlášen: {{ user.username }}</span>
-                <a href="{% url 'logout' %}" class="btn btn-outline-light btn-sm">Odhlásit</a>
+                <form method="post" action="{% url 'logout' %}" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-outline-light btn-sm">Odhlásit se</button>
+</form>
             {% else %}
                 <a href="{% url 'login' %}" class="btn btn-outline-light btn-sm">Přihlášení</a>
                 <a href="{% url 'register' %}" class="btn btn-outline-light btn-sm ms-2">Registrace</a>
@@ -18,11 +21,10 @@
     <!-- Levé menu -->
     <div class="sidebar">
         <ul class="nav flex-column">
-            <li class="nav-item"><a href="#" class="nav-link">📖 Knihy</a></li>
+            <li class="nav-item"><a href="{% url 'book-list' %}" class="nav-link">📖 Knihy</a></li>
             <li class="nav-item"><a href="#" class="nav-link">🖋️ Autoři</a></li>
             <li class="nav-item"><a href="#" class="nav-link">📦 Výpůjčky</a></li>
             <li class="nav-item"><a href="#" class="nav-link">📚 Sekce</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">🏆 Žebříčky</a></li>
         </ul>
     </div>
 

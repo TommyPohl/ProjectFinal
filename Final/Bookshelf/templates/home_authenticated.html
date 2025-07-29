@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}Moje knihovna{% endblock %}
+
+{% block content %}
+<h2>Vítej zpět, {{ user.username }}!</h2>
+
+<div class="mt-4">
+    <h4>📖 Naposledy přečteno <a href="{% url 'books-read' %}" class="btn btn-sm btn-link float-end">Zobrazit vše</a></h4>
+    <div class="row">
+        {% for book in recently_read %}
+            <div class="col-md-3 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'book-detail' book.pk %}" style="text-decoration: none; color: inherit;">
+                                {{ book.title }}
+                            </a>
+                        </h5>
+                        <p class="card-text">{{ book.author }}</p>
+
+                        {% with book.avg_rating|default:0|floatformat:0 as rating_value %}
+                        <p class="text-warning mb-0">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= rating_value|add:"0" %}
+                                    ⭐
+                                {% else %}
+                                    ☆
+                                {% endif %}
+                            {% endfor %}
+                            ({{ book.avg_rating|floatformat:1 }}★)
+                        </p>
+                    {% endwith %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">Žádné knihy</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="mt-4">
+    <h4>📌 Chystám se číst <a href="{% url 'books-wishlist' %}" class="btn btn-sm btn-link float-end">Zobrazit vše</a></h4>
+    <div class="row">
+        {% for book in to_read %}
+            <div class="col-md-3 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <a href="{% url 'book-detail' book.pk %}" style="text-decoration: none; color: inherit;">
+                            <h5 class="card-title">{{ book.title }}</h5>
+                            <p class="card-text">{{ book.author }}</p>
+
+                            {% with book.avg_rating|default:0|floatformat:0 as rating_value %}
+                        <p class="text-warning mb-0">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= rating_value|add:"0" %}
+                                    ⭐
+                                {% else %}
+                                    ☆
+                                {% endif %}
+                            {% endfor %}
+                            ({{ book.avg_rating|floatformat:1 }}★)
+                        </p>
+                        {% endwith %}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">Žádné knihy</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="mt-4">
+    <h4>⭐ Moje nejlépe hodnocené <a href="{% url 'books-best-rated' %}" class="btn btn-sm btn-link float-end">Zobrazit vše</a></h4>
+    <div class="row">
+    {% for book in best_rated_books %}
+        <div class="col-md-3 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <a href="{% url 'book-detail' book.pk %}">
+                        <h5 class="card-title">{{ book.title }}</h5>
+                        <p class="card-text">{{ book.author }}</p>
+                        {% with book.avg_rating|default:0|floatformat:0 as rating_value %}
+                        <p class="text-warning mb-0">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= rating_value|add:"0" %}
+                                    ⭐
+                                {% else %}
+                                    ☆
+                                {% endif %}
+                            {% endfor %}
+                            ({{ book.avg_rating|floatformat:1 }}★)
+                        </p>
+                        {% endwith %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">Zatím žádná hodnocení.</p>
+    {% endfor %}
+</div>
+
+<div class="mt-4">
+    <h4>💩 Moje nejhůře hodnocené <a href="{% url 'books-worst-rated' %}" class="btn btn-sm btn-link float-end">Zobrazit vše</a></h4>
+    <div class="row">
+    {% for book in worst_rated_books %}
+        <div class="col-md-3 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <a href="{% url 'book-detail' book.pk %}">
+                        <h5 class="card-title">{{ book.title }}</h5>
+                        <p class="card-text">{{ book.author }}</p>
+                        {% with book.avg_rating|default:0|floatformat:0 as rating_value %}
+                        <p class="text-warning mb-0">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= rating_value|add:"0" %}
+                                    ⭐
+                                {% else %}
+                                    ☆
+                                {% endif %}
+                            {% endfor %}
+                            ({{ book.avg_rating|floatformat:1 }}★)
+                        </p>
+                        {% endwith %}
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">Zatím žádná hodnocení.</p>
+    {% endfor %}
+</div>
+{% endblock %}

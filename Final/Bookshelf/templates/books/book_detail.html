@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+<p><strong>DEBUG rating_form:</strong> {{ rating_form }}</p>
+
+{% block title %}{{ book.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ book.title }}</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        {% if book.cover_image %}
+            <img src="{{ book.cover_image.url }}" class="img-fluid" alt="{{ book.title }}">
+        {% else %}
+            <p class="text-muted">Bez obálky</p>
+        {% endif %}
+    </div>
+    <div class="col-md-8">
+        <p><strong>Autor:</strong> {{ book.author }}</p>
+        <p><strong>Žánr:</strong> {{ book.genre }}</p>
+        <p><strong>Vydáno:</strong> {{ book.published_date }}</p>
+        <hr>
+        <p><strong>Popis:</strong></p>
+        <p>{{ book.description|linebreaks }}</p>
+        <a href="{% url 'book-list' %}" class="btn btn-secondary mt-3">← Zpět na seznam</a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'book-edit' book.pk %}" class="btn btn-warning mt-3">✏️ Upravit</a>
+        <a href="{% url 'book-delete' book.pk %}" class="btn btn-danger mt-3 ms-2">🗑️ Smazat</a>
+        {% endif %}
+        {% if user.is_authenticated %}
+    <form action="{% url 'toggle-read' book.pk %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline-success mt-3">
+            {% if user_relation and user_relation.read %}✅ Přečteno{% else %}📘 Označit jako přečteno{% endif %}
+        </button>
+    </form>
+
+    <form action="{% url 'toggle-wishlist' book.pk %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-outline-info mt-3 ms-2">
+            {% if user_relation and user_relation.wishlist %}📥 V seznamu{% else %}📥 Přidat do wishlistu{% endif %}
+        </button>
+    </form>
+{% endif %}
+    </div>
+</div>
+
+    <hr>
+    <h4>⭐ Hodnocení</h4>
+    <p>
+        Průměrné hodnocení:
+        {% if average_rating %}{{ average_rating|floatformat:1 }}/5{% else %}zatím nehodnoceno{% endif %}
+    </p>
+
+    {% if user.is_authenticated %}
+        {% if rating_form %}
+            <form method="post">
+                {% csrf_token %}
+                {{ rating_form.as_p }}
+                <button type="submit" class="btn btn-primary">Odeslat</button>
+            </form>
+        {% else %}
+            <p class="text-muted">Pro možnost hodnocení si nejprve označ knihu jako přečtenou.</p>
+        {% endif %}
+    {% else %}
+        <p><a href="{% url 'login' %}">Přihlaste se</a>, pokud chcete hodnotit nebo komentovat.</p>
+    {% endif %}
+
+    <hr>
+    <h5>💬 Komentáře</h5>
+    {% for rating in ratings %}
+        <div class="mb-3">
+            <strong>{{ rating.user.username }}</strong> dal {{ rating.stars }}★<br>
+            <small class="text-muted">{{ rating.created_at|date:"d.m.Y H:i" }}</small>
+            {% if rating.comment %}
+                <p>{{ rating.comment|linebreaks }}</p>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p class="text-muted">Zatím žádné komentáře.</p>
+    {% endfor %}
+{% endblock %}

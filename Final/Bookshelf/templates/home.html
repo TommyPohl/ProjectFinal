@@ -12,4 +12,58 @@
             <button type="submit" class="btn btn-primary">Hledat</button>
         </div>
     </form>
+    <div class="mt-4">
+    <h4>📚 Nově přidané knihy</h4>
+<div class="row">
+    {% for book in newest_books %}
+        <div class="col-md-3 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{% url 'book-detail' book.pk %}" style="text-decoration: none; color: inherit;">
+                            {{ book.title }}
+                        </a>
+                    </h5>
+                    <p class="card-text">{{ book.author }}</p>
+
+                    {% if book.avg_rating %}
+                        {% with book.avg_rating|floatformat:0 as stars %}
+                            <p class="text-warning mb-0">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= stars|add:"0" %}
+                                        ⭐
+                                    {% else %}
+                                        ☆
+                                    {% endif %}
+                                {% endfor %}
+                                ({{ book.avg_rating|floatformat:1 }}★)
+                            </p>
+                        {% endwith %}
+                    {% else %}
+                        <p class="text-muted mb-0">Zatím nehodnoceno</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">Zatím žádné knihy</p>
+    {% endfor %}
+</div>
+
+</div>
+
+<div class="mt-4">
+    <h4>⭐ Naposledy hodnoceno</h4>
+    {% for r in recently_rated %}
+        <p><strong>{{ r.user.username }}</strong> ohodnotil <a href="{% url 'book-detail' r.book.pk %}">{{ r.book.title }}</a>: {{ r.stars }}★</p>
+    {% endfor %}
+</div>
+
+<div class="mt-4">
+    <h4>💬 Poslední komentáře</h4>
+    {% for r in recent_comments %}
+        <p><strong>{{ r.user.username }}</strong> ke knize <a href="{% url 'book-detail' r.book.pk %}">{{ r.book.title }}</a>:
+        {{ r.comment|truncatewords:15 }}</p>
+    {% endfor %}
+</div>
 {% endblock %}

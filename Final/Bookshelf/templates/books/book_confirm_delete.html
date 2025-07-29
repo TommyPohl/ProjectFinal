@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Smazat knihu{% endblock %}
+
+{% block content %}
+<h2>🗑️ Smazat knihu</h2>
+<p>Opravdu chceš smazat knihu <strong>{{ object.title }}</strong>?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Ano, smazat</button>
+    <a href="{% url 'book-detail' object.pk %}" class="btn btn-secondary">Zpět</a>
+</form>
+{% endblock %}

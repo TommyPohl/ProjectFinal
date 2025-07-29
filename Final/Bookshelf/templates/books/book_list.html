@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Knihy{% endblock %}
+
+{% block content %}
+<h2>📖 Všechny knihy</h2>
+
+{% if user.is_authenticated %}
+<a href="{% url 'add-book' %}" class="btn btn-sm btn-success mb-3">➕ Přidat knihu</a>
+<a href="{% url 'import-books' %}" class="btn btn-sm btn-secondary mb-2">📥 Import knih (CSV)</a>
+{% endif %}
+
+<div class="row">
+    {% for book in books %}
+        <div class="col-md-3 mb-3">
+            <div class="card h-100">
+                {% if book.cover_image %}
+                    <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    <p class="card-text">{{ book.author }}</p>
+                    <a href="{% url 'book-detail' book.pk %}" class="btn btn-sm btn-primary">Detail</a>
+                    {% if book.avg_rating %}
+                        {% with book.avg_rating|floatformat:0 as stars %}
+                            <p class="text-warning mb-0 mt-2">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= stars|add:"0" %}
+                                        ⭐
+                                    {% else %}
+                                        ☆
+                                    {% endif %}
+                                {% endfor %}
+                                ({{ book.avg_rating|floatformat:1 }}★)
+                            </p>
+                        {% endwith %}
+                    {% else %}
+                        <p class="text-muted mt-2 mb-0">Zatím nehodnoceno</p>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">Žádné knihy nejsou k dispozici.</p>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+<nav>
+  <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Předchozí</a></li>
+    {% endif %}
+    <li class="page-item disabled"><span class="page-link">Stránka {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}</span></li>
+    {% if page_obj.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Další</a></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+{% endblock %}
