@@ -74,27 +74,32 @@
 </div>
 
 <div class="mt-4">
-    <h4>⭐ Moje nejlépe hodnocené <a href="{% url 'books-best-rated' %}" class="btn btn-sm btn-link float-end">Zobrazit vše</a></h4>
+    <h4>⭐ Moje nejlépe hodnocené
+        <a href="{% url 'books-best-rated' %}" class="btn btn-sm btn-link float-end">Zobrazit vše</a>
+    </h4>
     <div class="row">
     {% for book in best_rated_books %}
         <div class="col-md-3 mb-3">
             <div class="card h-100">
                 <div class="card-body">
-                    <a href="{% url 'book-detail' book.pk %}">
+                    <a href="{% url 'book-detail' book.pk %}" style="text-decoration: none; color: inherit;">
                         <h5 class="card-title">{{ book.title }}</h5>
                         <p class="card-text">{{ book.author }}</p>
-                        {% with book.avg_rating|default:0|floatformat:0 as rating_value %}
-                        <p class="text-warning mb-0">
-                            {% for i in "12345" %}
-                                {% if forloop.counter <= rating_value|add:"0" %}
-                                    ⭐
-                                {% else %}
-                                    ☆
-                                {% endif %}
-                            {% endfor %}
-                            ({{ book.avg_rating|floatformat:1 }}★)
-                        </p>
-                        {% endwith %}
+
+                        {% if book.user_stars %}
+                            <p class="text-warning mb-0 mt-2">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= book.user_stars %}
+                                        ⭐
+                                    {% else %}
+                                        ☆
+                                    {% endif %}
+                                {% endfor %}
+                                ({{ book.user_stars }}★)
+                            </p>
+                        {% else %}
+                            <p class="text-muted mt-2 mb-0">Zatím nehodnoceno</p>
+                        {% endif %}
                     </a>
                 </div>
             </div>
@@ -104,28 +109,34 @@
     {% endfor %}
 </div>
 
+
 <div class="mt-4">
-    <h4>💩 Moje nejhůře hodnocené <a href="{% url 'books-worst-rated' %}" class="btn btn-sm btn-link float-end">Zobrazit vše</a></h4>
+    <h4>💩 Moje nejhůře hodnocené
+        <a href="{% url 'books-worst-rated' %}" class="btn btn-sm btn-link float-end">Zobrazit vše</a>
+    </h4>
     <div class="row">
     {% for book in worst_rated_books %}
         <div class="col-md-3 mb-3">
             <div class="card h-100">
                 <div class="card-body">
-                    <a href="{% url 'book-detail' book.pk %}">
+                    <a href="{% url 'book-detail' book.pk %}" style="text-decoration: none; color: inherit;">
                         <h5 class="card-title">{{ book.title }}</h5>
                         <p class="card-text">{{ book.author }}</p>
-                        {% with book.avg_rating|default:0|floatformat:0 as rating_value %}
-                        <p class="text-warning mb-0">
-                            {% for i in "12345" %}
-                                {% if forloop.counter <= rating_value|add:"0" %}
-                                    ⭐
-                                {% else %}
-                                    ☆
-                                {% endif %}
-                            {% endfor %}
-                            ({{ book.avg_rating|floatformat:1 }}★)
-                        </p>
-                        {% endwith %}
+
+                        {% if book.user_stars %}
+                            <p class="text-warning mb-0 mt-2">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= book.user_stars %}
+                                        ⭐
+                                    {% else %}
+                                        ☆
+                                    {% endif %}
+                                {% endfor %}
+                                ({{ book.user_stars }}★)
+                            </p>
+                        {% else %}
+                            <p class="text-muted mt-2 mb-0">Zatím nehodnoceno</p>
+                        {% endif %}
                     </a>
                 </div>
             </div>

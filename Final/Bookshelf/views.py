@@ -19,6 +19,7 @@ from django.views.generic.edit import FormMixin
 from django.urls import reverse
 from django.db.models import Avg
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Subquery, OuterRef
 
 class BookListView(ListView):
     model = Book
@@ -52,8 +53,11 @@ def home(request):
         to_read = Book.objects.filter(id__in=to_read_ids).annotate(avg_rating=Avg('rating__stars'))
 
         # ⚠️ Osobní hodnocení (z přečtených knih uživatele)
-        best_rated_books = recently_read.exclude(avg_rating__isnull=True).order_by('-avg_rating')[:5]
-        worst_rated_books = recently_read.exclude(avg_rating__isnull=True).order_by('avg_rating')[:5]
+        user_ratings = Rating.objects.filter(user=request.user, book=OuterRef('pk')).values('stars')[:1]
+        recently_read = recently_read.annotate(user_stars=Subquery(user_ratings))
+
+        best_rated_books = recently_read.exclude(user_stars__isnull=True).order_by('-user_stars')[:5]
+        worst_rated_books = recently_read.exclude(user_stars__isnull=True).order_by('user_stars')[:5]
 
         context.update({
             'recently_read': recently_read,
@@ -167,13 +171,16 @@ class BookDetailView(FormMixin, DetailView):
             relation = UserBookRelation.objects.filter(user=self.request.user, book=book).first()
             context['user_relation'] = relation
 
+            user_rating = Rating.objects.filter(user=self.request.user, book=book).first()
+            context['user_rating'] = user_rating
+
             if relation and relation.read:
-                existing_rating = Rating.objects.filter(user=self.request.user, book=book).first()
-                context['rating_form'] = RatingForm(instance=existing_rating)
+                context['rating_form'] = RatingForm(instance=user_rating)
             else:
                 context['rating_form'] = None
         else:
             context['rating_form'] = None
+            context['user_rating'] = None
 
         context['ratings'] = Rating.objects.filter(book=book)
         context['average_rating'] = context['ratings'].aggregate(models.Avg('stars'))['stars__avg']

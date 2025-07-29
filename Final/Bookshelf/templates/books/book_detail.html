@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 
-<p><strong>DEBUG rating_form:</strong> {{ rating_form }}</p>
-
 {% block title %}{{ book.title }}{% endblock %}
 
 {% block content %}
@@ -45,28 +43,34 @@
     </div>
 </div>
 
-    <hr>
-    <h4>⭐ Hodnocení</h4>
-    <p>
-        Průměrné hodnocení:
-        {% if average_rating %}{{ average_rating|floatformat:1 }}/5{% else %}zatím nehodnoceno{% endif %}
+    {% if user.is_authenticated and user_rating %}
+    <p>Vaše hodnocení:</p>
+    <p class="text-warning">
+        {% for i in "12345" %}
+            {% if forloop.counter <= user_rating.stars %}
+                ⭐
+            {% else %}
+                ☆
+            {% endif %}
+        {% endfor %}
+        ({{ user_rating.stars }}★)
     </p>
+{% elif average_rating %}
+    <p>Průměrné hodnocení:</p>
+    <p class="text-warning">
+        {% for i in "12345" %}
+            {% if forloop.counter <= average_rating|floatformat:0 %}
+                ⭐
+            {% else %}
+                ☆
+            {% endif %}
+        {% endfor %}
+        ({{ average_rating|floatformat:1 }}★)
+    </p>
+{% else %}
+    <p class="text-muted">Zatím nehodnoceno</p>
+{% endif %}
 
-    {% if user.is_authenticated %}
-        {% if rating_form %}
-            <form method="post">
-                {% csrf_token %}
-                {{ rating_form.as_p }}
-                <button type="submit" class="btn btn-primary">Odeslat</button>
-            </form>
-        {% else %}
-            <p class="text-muted">Pro možnost hodnocení si nejprve označ knihu jako přečtenou.</p>
-        {% endif %}
-    {% else %}
-        <p><a href="{% url 'login' %}">Přihlaste se</a>, pokud chcete hodnotit nebo komentovat.</p>
-    {% endif %}
-
-    <hr>
     <h5>💬 Komentáře</h5>
     {% for rating in ratings %}
         <div class="mb-3">
