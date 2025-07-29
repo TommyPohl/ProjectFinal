@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Úvod{% endblock %}
+
+{% block content %}
+    <h1>Vítejte v My Bookshelf!</h1>
+    <p>Spravujte svou osobní knihovnu, hodnoťte knihy, tvořte wishlisty a sledujte, co jste přečetli.</p>
+
+    <form method="GET" action="{% url 'search' %}" class="mt-4">
+        <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Hledat knihy, autory..." />
+            <button type="submit" class="btn btn-primary">Hledat</button>
+        </div>
+    </form>
+{% endblock %}

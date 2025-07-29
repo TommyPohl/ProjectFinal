@@ -16,8 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from Bookshelf import views
 
 urlpatterns = [
-    path('', include('Bookshelf.urls')),
+    path('', views.home, name='home'),
+    path('search/', views.search, name='search'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('register/', views.register, name='register'),  # ← přidat sem
     path('admin/', admin.site.urls),
 ]
