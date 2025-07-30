@@ -30,7 +30,16 @@
 </head>
 <body>
     {% include 'includes/header.html' %}
-    {% block content %}{% endblock %}
+
+    <div class="d-flex" style="margin-top: 56px;">  <!-- posun dolů o výšku topbaru -->
+        <div class="sidebar">
+            {% include 'includes/sidebar.html' %}
+        </div>
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
     {% include 'includes/footer.html' %}
 </body>
 </html>

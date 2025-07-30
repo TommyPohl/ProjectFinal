@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Autoři{% endblock %}
+{% block content %}
+<h2>📚 Autoři</h2>
+<ul class="list-group">
+    {% for author in authors %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="{% url 'books-by-author' author.author %}">{{ author.author }}</a>
+            <span class="badge bg-primary rounded-pill">{{ author.book_count }}</span>
+        </li>
+    {% empty %}
+        <li class="list-group-item">Žádní autoři</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -3,13 +3,63 @@
 {% block title %}Knihy{% endblock %}
 
 {% block content %}
+
 <h2>📖 Všechny knihy</h2>
+
+<!-- 🔍 Vyhledávání a filtrování -->
+<form method="get" class="mb-4">
+    <div class="row g-2 align-items-end">
+        <div class="col-md-3">
+            <label for="search" class="form-label">Hledat</label>
+            <input type="text" name="q" id="search" value="{{ request.GET.q }}" class="form-control" placeholder="Název nebo autor">
+        </div>
+        <div class="col-md-2">
+            <label for="author" class="form-label">Autor</label>
+            <input type="text" name="author" id="author" value="{{ request.GET.author }}" class="form-control">
+        </div>
+        <div class="col-md-2">
+            <label for="genre" class="form-label">Žánr</label>
+            <input type="text" name="genre" id="genre" value="{{ request.GET.genre }}" class="form-control">
+        </div>
+        <div class="col-md-2">
+            <label for="series" class="form-label">Série</label>
+            <input type="text" name="series" id="series" value="{{ request.GET.series }}" class="form-control">
+        </div>
+        <div class="col-md-2">
+            <label for="location" class="form-label">Umístění</label>
+            <input type="text" name="location" id="location" value="{{ request.GET.location }}" class="form-control">
+        </div>
+        <div class="col-md-3">
+            <label for="sort" class="form-label">Řadit podle</label>
+            <select name="sort" id="sort" class="form-select">
+                <option value="">-- Výchozí --</option>
+                <option value="title" {% if sort_by == "title" %}selected{% endif %}>Název (A–Z)</option>
+                <option value="title_desc" {% if sort_by == "title_desc" %}selected{% endif %}>Název (Z–A)</option>
+                <option value="author" {% if sort_by == "author" %}selected{% endif %}>Autor (A–Z)</option>
+                <option value="author_desc" {% if sort_by == "author_desc" %}selected{% endif %}>Autor (Z–A)</option>
+                <option value="genre" {% if sort_by == "genre" %}selected{% endif %}>Žánr (A–Z)</option>
+                <option value="genre_desc" {% if sort_by == "genre_desc" %}selected{% endif %}>Žánr (Z–A)</option>
+                <option value="location" {% if sort_by == "location" %}selected{% endif %}>Umístění (A–Z)</option>
+                <option value="location_desc" {% if sort_by == "location_desc" %}selected{% endif %}>Umístění (Z–A)</option>
+                <option value="published" {% if sort_by == "published" %}selected{% endif %}>Datum přidání (nejnovější)</option>
+                <option value="published_desc" {% if sort_by == "published_desc" %}selected{% endif %}>Datum přidání (nejstarší)</option>
+            </select>
+
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100 mt-2">🔎 Filtrovat</button>
+        </div>
+    </div>
+</form>
 
 {% if user.is_authenticated %}
 <a href="{% url 'add-book' %}" class="btn btn-sm btn-success mb-3">➕ Přidat knihu</a>
 <a href="{% url 'import-books' %}" class="btn btn-sm btn-secondary mb-2">📥 Import knih (CSV)</a>
+<a href="{% url 'export-books' %}" class="btn btn-sm btn-secondary mb-2">📤 Export knih (CSV)</a>
+
 {% endif %}
 
+<!-- 📚 Seznam knih -->
 <div class="row">
     {% for book in books %}
         <div class="col-md-3 mb-3">
@@ -37,7 +87,6 @@
                     {% else %}
                         <p class="text-muted mt-2 mb-0">Zatím nehodnoceno</p>
                     {% endif %}
-
                 </div>
             </div>
         </div>
@@ -46,6 +95,7 @@
     {% endfor %}
 </div>
 
+<!-- 📄 Stránkování -->
 {% if is_paginated %}
 <nav>
   <ul class="pagination justify-content-center">
@@ -59,4 +109,5 @@
   </ul>
 </nav>
 {% endif %}
+
 {% endblock %}

@@ -5,7 +5,7 @@ from .models import Rating
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['title', 'author', 'description', 'genre', 'published_date', 'cover_image']
+        fields = ['title', 'author', 'genre', 'series', 'published_date', 'location', 'cover_image', 'description']
         widgets = {
             'published_date': forms.DateInput(attrs={'type': 'date'}),
         }

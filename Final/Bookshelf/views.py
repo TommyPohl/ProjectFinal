@@ -3,7 +3,6 @@ from .models import Book, UserBookRelation
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from .forms import BookForm
-from django.contrib.auth.decorators import login_required
 import csv
 from io import TextIOWrapper
 from django.contrib import messages
@@ -20,6 +19,11 @@ from django.urls import reverse
 from django.db.models import Avg
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Subquery, OuterRef
+from django.db.models import Q
+from django.http import HttpResponse
+from .models import Author
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 
 class BookListView(ListView):
     model = Book
@@ -28,7 +32,60 @@ class BookListView(ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        return Book.objects.annotate(avg_rating=Avg('rating__stars'))
+        queryset = Book.objects.annotate(avg_rating=Avg('rating__stars'))
+
+        q = self.request.GET.get('q')
+        author = self.request.GET.get('author')
+        genre = self.request.GET.get('genre')
+        series = self.request.GET.get('series')
+        location = self.request.GET.get('location')
+        sort_by = self.request.GET.get('sort')
+
+        if q:
+            queryset = queryset.filter(Q(title__icontains=q) | Q(author__icontains=q))
+        if author:
+            queryset = queryset.filter(author__icontains=author)
+        if genre:
+            queryset = queryset.filter(genre__icontains=genre)
+        if series:
+            queryset = queryset.filter(series__icontains=series)
+        if location:
+            queryset = queryset.filter(location__icontains=location)
+
+        if sort_by == 'title':
+            queryset = queryset.order_by('title')
+        elif sort_by == 'title_desc':
+            queryset = queryset.order_by('-title')
+        elif sort_by == 'author':
+            queryset = queryset.order_by('author')
+        elif sort_by == 'author_desc':
+            queryset = queryset.order_by('-author')
+        elif sort_by == 'genre':
+            queryset = queryset.order_by('genre')
+        elif sort_by == 'genre_desc':
+            queryset = queryset.order_by('-genre')
+        elif sort_by == 'location':
+            queryset = queryset.order_by('location')
+        elif sort_by == 'location_desc':
+            queryset = queryset.order_by('-location')
+        elif sort_by == 'published':
+            queryset = queryset.order_by('-published_date')
+        elif sort_by == 'published_desc':
+            queryset = queryset.order_by('published_date')
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['q'] = self.request.GET.get('q', '')
+        context['sort_by'] = self.request.GET.get('sort', '')  # ← DŮLEŽITÉ!
+        context['filters'] = {
+            'author': self.request.GET.get('author', ''),
+            'genre': self.request.GET.get('genre', ''),
+            'series': self.request.GET.get('series', ''),
+            'location': self.request.GET.get('location', ''),
+        }
+        return context
 
 def home(request):
     context = {}  # 💡 tady to přidáme hned na začátku
@@ -272,3 +329,79 @@ class WorstRatedBooksView(ListView):
     def get_queryset(self):
         return Book.objects.annotate(avg_rating=Avg('rating__stars')) \
             .filter(avg_rating__isnull=False).order_by('avg_rating')
+
+@login_required
+def export_books(request):
+    response = HttpResponse(content_type='text/csv; charset=utf-8-sig')
+    response['Content-Disposition'] = 'attachment; filename="knihy.csv"'
+
+    writer = csv.writer(response)
+    response.write('\ufeff')
+
+    writer.writerow(['title', 'author', 'description', 'genre', 'published_date', 'location'])
+
+    for book in Book.objects.all():
+        writer.writerow([
+            book.title,
+            book.author,
+            book.genre,
+            book.series,
+            book.published_date.strftime('%Y-%m-%d') if book.published_date else '',
+            book.location,
+            book.description,
+        ])
+
+    return response
+
+def about(request):
+    return render(request, 'books/about.html')
+
+def loans(request):
+    return render(request, 'books/loans.html')
+
+def reading_room(request):
+    return render(request, 'books/reading_room.html')
+
+def author_list(request):
+    authors = Book.objects.values('author').annotate(book_count=Count('id')).order_by('author')
+    return render(request, 'authors/author_list.html', {'authors': authors})
+
+def books_by_author(request, author_name):
+    books = Book.objects.filter(author=author_name).annotate(avg_rating=Avg('rating__stars'))
+    return render(request, 'authors/books_by_author.html', {'books': books, 'author_name': author_name})
+
+def genre_list(request):
+    genres = Book.objects.values('genre').annotate(count=Count('id')).order_by('genre')
+    return render(request, 'genres/genre_list.html', {'genres': genres})
+
+def genre_detail(request, genre):
+    books = Book.objects.filter(genre=genre)
+    return render(request, 'genres/genre_detail.html', {'genre': genre, 'books': books})
+
+@login_required
+def wishlist_view(request):
+    relations = UserBookRelation.objects.filter(user=request.user, wishlist=True)
+    books = Book.objects.filter(id__in=relations.values_list('book_id', flat=True)).annotate(avg_rating=Avg('rating__stars'))
+    return render(request, 'books/wishlist.html', {'books': books})
+
+@login_required
+def read_books(request):
+    books = Book.objects.filter(userbookrelation__user=request.user, userbookrelation__read=True)
+    return render(request, 'books/read_books.html', {'books': books})
+
+@login_required
+def my_library(request):
+    relations = UserBookRelation.objects.filter(user=request.user).filter(
+        Q(read=True) | Q(rating__isnull=False)
+    )
+    book_ids = relations.values_list('book_id', flat=True).distinct()
+
+    books = Book.objects.filter(id__in=book_ids).annotate(avg_rating=Avg('rating__stars'))
+
+    return render(request, 'books/my_library.html', {'books': books})
+
+@login_required
+def read_books_view(request):
+    relations = UserBookRelation.objects.filter(user=request.user, read=True)
+    books = Book.objects.filter(id__in=relations.values_list('book_id', flat=True)).annotate(avg_rating=Avg('rating__stars'))
+    return render(request, 'books/read_books.html', {'books': books})

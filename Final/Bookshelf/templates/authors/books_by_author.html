@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Knihy autora {{ author_name }}{% endblock %}
+{% block content %}
+<h2>📚 Knihy autora: {{ author_name }}</h2>
+
+<div class="row">
+    {% for book in books %}
+        <div class="col-md-3 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title }}</h5>
+                    {% if book.avg_rating %}
+                        {% with book.avg_rating|floatformat:0 as stars %}
+                            <p class="text-warning">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= stars|add:"0" %}
+                                        ⭐
+                                    {% else %}
+                                        ☆
+                                    {% endif %}
+                                {% endfor %}
+                                ({{ book.avg_rating|floatformat:1 }}★)
+                            </p>
+                        {% endwith %}
+                    {% else %}
+                        <p class="text-muted">Zatím nehodnoceno</p>
+                    {% endif %}
+                    <a href="{% url 'book-detail' book.pk %}" class="btn btn-sm btn-primary">Detail</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p class="text-muted">Tento autor zatím nemá žádné knihy.</p>
+    {% endfor %}
+</div>
+{% endblock %}
