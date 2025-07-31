@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Přidat knihu{% endblock %}
+{% block title %}Přidat novou knihu{% endblock %}
 
 {% block content %}
 <h2>📘 Přidat novou knihu</h2>
@@ -24,19 +24,15 @@
     </div>
 
     <div class="mb-3">
-        <label for="{{ form.series.id_for_label }}" class="form-label">Série</label>
+        <label for="{{ form.series.id_for_label }}" class="form-label">Knižní série</label>
         {{ form.series }}
     </div>
 
     <div class="mb-3">
-        <label for="{{ form.location.id_for_label }}" class="form-label">Umístění</label>
+        <label for="{{ form.location.id_for_label }}" class="form-label">Umístění v knihovně</label>
         {{ form.location }}
     </div>
 
-    <div class="mb-3">
-        <label for="{{ form.published_date.id_for_label }}" class="form-label">Datum vydání</label>
-        {{ form.published_date }}
-    </div>
 
     <div class="mb-3">
         <label for="{{ form.cover_image.id_for_label }}" class="form-label">Obálka</label>
