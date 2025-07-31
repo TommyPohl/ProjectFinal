@@ -4,35 +4,78 @@
     <meta charset="UTF-8">
     <title>{% block title %}My Bookshelf{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
         body {
             display: flex;
-            min-height: 100vh;
+            flex-direction: column;
+            padding-top: 56px; /* výška topbaru */
         }
+
+        .topbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1040;
+        }
+
+        .main-wrapper {
+            display: flex;
+            flex: 1;
+        }
+
         .sidebar {
             min-width: 200px;
             max-width: 200px;
             background-color: #f8f9fa;
             padding: 1rem;
         }
+
         .content {
             flex: 1;
             padding: 1rem;
         }
-        .topbar {
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
+
+        footer {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-top: 1px solid #dee2e6;
+            text-align: center;
         }
     </style>
+
     {% block extra_head %}{% endblock %}
 </head>
 <body>
+
+    <!-- Horní lišta -->
     {% include 'includes/header.html' %}
 
-    <div class="d-flex" style="margin-top: 56px;">
-        <div class="sidebar">
+    <!-- Tlačítko pro mobilní menu -->
+    <nav class="navbar navbar-light bg-light d-md-none">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mobileSidebar" aria-controls="mobileSidebar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span> Menu
+            </button>
+        </div>
+    </nav>
+
+    <!-- Sbalitelné mobilní menu -->
+    <div class="collapse d-md-none bg-light p-3" id="mobileSidebar">
+        {% include 'includes/sidebar.html' %}
+    </div>
+
+    <!-- Desktop layout -->
+    <div class="main-wrapper">
+        <div class="sidebar d-none d-md-block">
             {% include 'includes/sidebar.html' %}
         </div>
         <div class="content">
@@ -40,6 +83,11 @@
         </div>
     </div>
 
+    <!-- Patička -->
     {% include 'includes/footer.html' %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
