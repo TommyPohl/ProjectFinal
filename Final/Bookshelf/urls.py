@@ -1,41 +1,62 @@
 from django.contrib import admin
 from django.urls import path, include
-from Bookshelf import views
-from . import views
-from .views import BookListView
-from .views import author_list
-from .views import (
+
+from Bookshelf.views.books import (
+    BookListView, book_detail, add_book, import_books,
+    BookUpdateView, BookDeleteView, toggle_read, toggle_wishlist,
+    export_books, read_books_view, my_library,
     ReadBooksListView, WishlistBooksListView,
-    BestRatedBooksView, WorstRatedBooksView
+    BestRatedBooksView, WorstRatedBooksView, wishlist_view
 )
+from Bookshelf.views.users import register, home
+from Bookshelf.views.static_pages import about, loans, reading_room
+from Bookshelf.views.authors import author_list, books_by_author
+from Bookshelf.views.genres import genre_list, genre_detail
+from Bookshelf.views.tags import create_tag, tag_list, tag_detail, edit_tag, delete_tag
 
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('search/', views.search, name='search'),
-    path('accounts/', include('django.contrib.auth.urls')),  # přidat tento řádek
-    path('admin/', admin.site.urls),
+    path('', home, name='home'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('register/', register, name='register'),
+    path('admin/', admin.site.urls),
+
+    # Books
     path('books/', BookListView.as_view(), name='book-list'),
-    path('books/<int:pk>/', views.BookDetailView.as_view(), name='book-detail'),
-    path('books/add/', views.add_book, name='add-book'),
-    path('books/import/', views.import_books, name='import-books'),
-    path('books/<int:pk>/edit/', views.BookUpdateView.as_view(), name='book-edit'),
-    path('books/<int:pk>/delete/', views.BookDeleteView.as_view(), name='book-delete'),
-    path('books/<int:pk>/toggle-read/', views.toggle_read, name='toggle-read'),
-    path('books/<int:pk>/toggle-wishlist/', views.toggle_wishlist, name='toggle-wishlist'),
+    path('books/<int:pk>/', book_detail, name='book-detail'),
+    path('books/add/', add_book, name='add-book'),
+    path('books/import/', import_books, name='import-books'),
+    path('books/<int:pk>/edit/', BookUpdateView.as_view(), name='book-edit'),
+    path('books/<int:pk>/delete/', BookDeleteView.as_view(), name='book-delete'),
+    path('books/<int:pk>/toggle-read/', toggle_read, name='toggle-read'),
+    path('books/<int:pk>/toggle-wishlist/', toggle_wishlist, name='toggle-wishlist'),
     path('books/read/', ReadBooksListView.as_view(), name='books-read'),
     path('books/wishlist/', WishlistBooksListView.as_view(), name='books-wishlist'),
     path('books/best-rated/', BestRatedBooksView.as_view(), name='books-best-rated'),
     path('books/worst-rated/', WorstRatedBooksView.as_view(), name='books-worst-rated'),
-    path('books/export/', views.export_books, name='export-books'),
-    path('about/', views.about, name='about'),
-    path('loans/', views.loans, name='loans'),
-    path('reading-room/', views.reading_room, name='reading-room'),
-    path('autori/', views.author_list, name='authors-list'),
-    path('zanry/', views.genre_list, name='genres'),
-    path('wishlist/', views.wishlist_view, name='books-wishlist'),
-    path('read/', views.read_books_view, name='books-read'),
-    path('moje-knihovna/', views.my_library, name='my-library'),
-    path('authors/<str:author_name>/', views.books_by_author, name='books-by-author'),
-    path('genres/<str:genre>/', views.genre_detail, name='genre-detail'),
+    path('books/export/', export_books, name='export-books'),
+
+    # Authors
+    path('autori/', author_list, name='authors-list'),
+    path('authors/<str:author_name>/', books_by_author, name='books-by-author'),
+
+    # Genres
+    path('zanry/', genre_list, name='genres'),
+    path('genres/<str:genre>/', genre_detail, name='genre-detail'),
+
+    # Tags
+    path('tags/create/', create_tag, name='create-tag'),
+    path('stitky/', tag_list, name='tag-list'),
+    path('stitky/<str:slug>/', tag_detail, name='tag-detail'),
+    path('tags/<str:slug>/edit/', edit_tag, name='edit-tag'),
+    path('tags/<str:slug>/delete/', delete_tag, name='delete-tag'),
+
+    # Static Pages
+    path('about/', about, name='about'),
+    path('loans/', loans, name='loans'),
+    path('reading-room/', reading_room, name='reading-room'),
+
+    # User-specific views
+    path('wishlist/', wishlist_view, name='books-wishlist'),
+    path('read/', read_books_view, name='books-read'),
+    path('moje-knihovna/', my_library, name='my-library'),
 ]

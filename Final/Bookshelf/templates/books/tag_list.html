@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Štítky{% endblock %}
+
+{% block content %}
+<h2>🏷️ Seznam štítků</h2>
+
+{% if user.is_authenticated %}
+    <a href="{% url 'create-tag' %}" class="btn btn-sm btn-success mb-3">➕ Vytvořit nový štítek</a>
+{% endif %}
+
+<ul class="list-group">
+    {% for tag in tags %}
+        <li class="list-group-item">
+            <a href="{% url 'tag-detail' slug=tag.slug %}">{{ tag.name }}</a>
+        </li>
+    {% empty %}
+        <li class="list-group-item text-muted">Zatím žádné štítky.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

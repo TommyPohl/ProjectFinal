@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Upravit štítek{% endblock %}
+
+{% block content %}
+<h2>✏️ Upravit štítek</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">💾 Uložit změny</button>
+    <a href="{% url 'tag-detail' tag.slug %}" class="btn btn-secondary">Zpět</a>
+</form>
+{% endblock %}

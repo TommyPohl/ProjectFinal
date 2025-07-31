@@ -29,6 +29,10 @@
             <label for="location" class="form-label">Umístění</label>
             <input type="text" name="location" id="location" value="{{ request.GET.location }}" class="form-control">
         </div>
+        <div class="col-md-2">
+            <label for="tag" class="form-label">Štítek</label>
+            <input type="text" name="tag" id="tag" value="{{ request.GET.tag }}" class="form-control">
+        </div>
         <div class="col-md-3">
             <label for="sort" class="form-label">Řadit podle</label>
             <select name="sort" id="sort" class="form-select">

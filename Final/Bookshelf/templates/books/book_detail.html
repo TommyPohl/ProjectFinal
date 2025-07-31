@@ -84,21 +84,32 @@
         <p class="text-muted">Zatím žádné komentáře.</p>
     {% endfor %}
 
+
 {% if user.is_authenticated and rating_form %}
-    <h5 class="mt-4">➕ Přidat komentář</h5>
-    <form method="post">
-        {% csrf_token %}
-        <div class="mb-3">
-            {{ rating_form.stars.label_tag }}<br>
-            {{ rating_form.stars }}
-        </div>
-        <div class="mb-3">
-            {{ rating_form.comment.label_tag }}
-            {{ rating_form.comment|linebreaks }}
-        </div>
-        <button type="submit" class="btn btn-primary">💾 Uložit hodnocení</button>
-    </form>
-{% elif user.is_authenticated %}
-    <p class="text-muted">Nejprve označ knihu jako přečtenou pro možnost přidat hodnocení a komentář.</p>
+  <h5>📥 Přidat hodnocení</h5>
+  <form method="post" class="mb-4">
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ rating_form.stars.label_tag }}
+      {{ rating_form.stars }}
+    </div>
+    <div class="mb-3">
+      {{ rating_form.comment.label_tag }}
+      {{ rating_form.comment }}
+    </div>
+    <button type="submit" class="btn btn-primary">💬 Odeslat hodnocení</button>
+  </form>
 {% endif %}
+
+<h5 class="mt-4">🏷️ Štítky:</h5>
+        {% if book.tags.exists %}
+          <p>
+            {% for tag in book.tags.all %}
+              <a href="{% url 'tag-detail' tag.slug %}" class="badge bg-secondary">{{ tag.name }}</a>
+            {% empty %}
+              <span class="text-muted">Žádné štítky</span>
+            {% endfor %}
+          </p>
+        {% endif %}
+
 {% endblock %}

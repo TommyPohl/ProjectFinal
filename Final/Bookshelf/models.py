@@ -1,5 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50)
+    slug = models.SlugField(unique=True)
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            from django.utils.text import slugify
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
 class Book(models.Model):
     title = models.CharField(max_length=200)
@@ -10,6 +24,7 @@ class Book(models.Model):
     cover_image = models.ImageField(upload_to='covers/', blank=True, null=True)
     description = models.TextField(blank=True)
     location = models.CharField(max_length=20, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True, related_name="books")
 
     def __str__(self):
         return self.title
@@ -45,3 +60,6 @@ class Author(models.Model):
 
     def __str__(self):
         return self.name
+
+
+

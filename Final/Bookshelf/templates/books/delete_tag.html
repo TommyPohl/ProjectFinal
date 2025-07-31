@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Smazat štítek{% endblock %}
+
+{% block content %}
+<h2>⚠️ Smazat štítek</h2>
+<p>Opravdu chceš smazat štítek <strong>{{ tag.name }}</strong>?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">🗑️ Smazat</button>
+    <a href="{% url 'tag-detail' tag.slug %}" class="btn btn-secondary">Zrušit</a>
+</form>
+{% endblock %}

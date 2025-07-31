@@ -20,7 +20,6 @@ from Bookshelf import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('search/', views.search, name='search'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('register/', views.register, name='register'),  # ← přidat sem
     path('admin/', admin.site.urls),
