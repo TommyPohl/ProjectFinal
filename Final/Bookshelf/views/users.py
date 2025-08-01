@@ -14,11 +14,13 @@ def home(request):
     recently_rated = Rating.objects.select_related('book', 'user')[:5]
     recent_comments = Rating.objects.exclude(comment='').select_related('book', 'user')[:5]
     newest_books = Book.objects.annotate(avg_rating=Avg('rating__stars')).order_by('-id')[:5]
+    recently_added_books = Book.objects.order_by('-id')[:5]
 
     context.update({
         'recently_rated': recently_rated,
         'recent_comments': recent_comments,
         'newest_books': newest_books,
+        'recently_added_books': recently_added_books,
     })
 
     if request.user.is_authenticated:
@@ -65,10 +67,3 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
-
-
-
-
-
-
-

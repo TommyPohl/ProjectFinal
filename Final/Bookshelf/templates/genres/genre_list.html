@@ -1,11 +1,17 @@
 {% extends 'base.html' %}
+
 {% block title %}Žánry{% endblock %}
+
 {% block content %}
 <h2>📚 Žánry</h2>
 <ul class="list-group">
     {% for genre in genres %}
         <li class="list-group-item d-flex justify-content-between align-items-center">
-            <a href="{% url 'genre-detail' genre.genre %}">{{ genre.genre }}</a>
+            {% if genre.genre %}
+                <a href="{% url 'genre-detail' genre.genre %}">{{ genre.genre }}</a>
+            {% else %}
+                <span class="text-muted">(bez žánru)</span>
+            {% endif %}
             <span class="badge bg-secondary rounded-pill">{{ genre.count }}</span>
         </li>
     {% endfor %}

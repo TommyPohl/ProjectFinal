@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Žánr: {{ genre }}{% endblock %}
+{% block content %}
+<h2>📚 Knihy v žánru: {{ genre }}</h2>
+
+{% if books %}
+  <ul class="list-group">
+    {% for book in books %}
+      <li class="list-group-item">
+        <a href="{% url 'book-detail' book.pk %}">{{ book.title }}</a> – {{ book.author }}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="text-muted">Žádné knihy v tomto žánru.</p>
+{% endif %}
+{% endblock %}

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.text import slugify
+from PIL import Image
 
 class Tag(models.Model):
     name = models.CharField(max_length=50)
@@ -25,6 +25,20 @@ class Book(models.Model):
     description = models.TextField(blank=True)
     location = models.CharField(max_length=20, blank=True)
     tags = models.ManyToManyField(Tag, blank=True, related_name="books")
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if self.cover_image:
+            img_path = self.cover_image.path
+            img = Image.open(img_path)
+
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+
+            max_size = (300, 450)
+            img.thumbnail(max_size, Image.Resampling.LANCZOS)
+            img.save(img_path)
 
     def __str__(self):
         return self.title
@@ -61,5 +75,13 @@ class Author(models.Model):
     def __str__(self):
         return self.name
 
+class Loan(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    borrower_name = models.CharField(max_length=100)
+    contact = models.CharField(max_length=100)
+    loan_date = models.DateField()
+    returned = models.BooleanField(default=False)
 
+    def __str__(self):
+        return f"{self.book.title} – {self.borrower_name}"
 

@@ -5,6 +5,31 @@
 {% block content %}
 <h2>Vítej zpět, {{ user.username }}!</h2>
 
+<h4>🆕 Naposled přidané</h4>
+<div class="row">
+  {% for book in recently_added_books %}
+    <div class="col-md-3 mb-3">
+      <div class="card h-100">
+        {% if book.cover_image %}
+          <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}"
+          style="width: 200px; height: 200px; object-fit: cover; margin: 0 auto;">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ book.title }}</h5>
+          <p class="card-text">{{ book.author }}</p>
+          <a href="{% url 'book-detail' book.pk %}" class="btn btn-sm btn-primary">Detail</a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p class="text-muted">Žádné nové knihy.</p>
+  {% endfor %}
+</div>
+
+<h4>🆕 Naposled přidané
+  <a href="{% url 'book-list' %}?sort=newest" class="btn btn-sm btn-link float-end">Zobrazit vše</a>
+</h4>
+
 <div class="mt-4">
     <h4>📖 Naposledy přečteno <a href="{% url 'books-read' %}" class="btn btn-sm btn-link float-end">Zobrazit vše</a></h4>
     <div class="row">

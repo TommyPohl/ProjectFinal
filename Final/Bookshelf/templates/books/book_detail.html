@@ -101,14 +101,14 @@
 {% endif %}
 
 <h5 class="mt-4">🏷️ Štítky:</h5>
-        {% if book.tags.exists %}
-          <p>
-            {% for tag in book.tags.all %}
-              <a href="{% url 'tag-detail' tag.slug %}" class="badge bg-secondary">{{ tag.name }}</a>
-            {% empty %}
-              <span class="text-muted">Žádné štítky</span>
-            {% endfor %}
-          </p>
-        {% endif %}
+    {% if book.tags.exists %}
+      <p>
+        {% for tag in book.tags.all %}
+          <a href="{% url 'tag-detail' tag.slug %}" class="badge bg-secondary text-decoration-none">{{ tag.name }}</a>
+        {% endfor %}
+      </p>
+    {% else %}
+      <p class="text-muted">Žádné štítky</p>
+    {% endif %}
 
 {% endblock %}

@@ -1,6 +1,7 @@
-from django import forms
 from .models import Book, Tag
 from .models import Rating
+from django import forms
+from .models import Loan
 
 class BookForm(forms.ModelForm):
     class Meta:
@@ -14,11 +15,6 @@ class BookForm(forms.ModelForm):
             'tags': forms.CheckboxSelectMultiple(),
         }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for field in self.fields.values():
-            if not isinstance(field.widget, forms.CheckboxInput):
-                field.widget.attrs['class'] = 'form-control'
 
 class ImportBooksForm(forms.Form):
     csv_file = forms.FileField(label="CSV soubor")
@@ -57,3 +53,14 @@ class BookTagForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = ['tags']
+
+class LoanForm(forms.ModelForm):
+    class Meta:
+        model = Loan
+        fields = ['book', 'borrower_name', 'contact', 'loan_date']
+        widgets = {
+            'book': forms.Select(attrs={'class': 'form-control'}),
+            'borrower_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'contact': forms.TextInput(attrs={'class': 'form-control'}),
+            'loan_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+        }

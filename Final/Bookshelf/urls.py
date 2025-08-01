@@ -8,11 +8,15 @@ from Bookshelf.views.books import (
     ReadBooksListView, WishlistBooksListView,
     BestRatedBooksView, WorstRatedBooksView, wishlist_view
 )
+from Bookshelf import views
 from Bookshelf.views.users import register, home
-from Bookshelf.views.static_pages import about, loans, reading_room
+from Bookshelf.views.static_pages import about, reading_room
 from Bookshelf.views.authors import author_list, books_by_author
 from Bookshelf.views.genres import genre_list, genre_detail
 from Bookshelf.views.tags import create_tag, tag_list, tag_detail, edit_tag, delete_tag
+from Bookshelf.views.loans import loans_view
+from Bookshelf.views import loans
+
 
 urlpatterns = [
     path('', home, name='home'),
@@ -42,6 +46,7 @@ urlpatterns = [
     # Genres
     path('zanry/', genre_list, name='genres'),
     path('genres/<str:genre>/', genre_detail, name='genre-detail'),
+    path('zanr/<str:genre>/', views.books_by_genre, name='genre-detail'),
 
     # Tags
     path('tags/create/', create_tag, name='create-tag'),
@@ -52,11 +57,13 @@ urlpatterns = [
 
     # Static Pages
     path('about/', about, name='about'),
-    path('loans/', loans, name='loans'),
     path('reading-room/', reading_room, name='reading-room'),
 
     # User-specific views
     path('wishlist/', wishlist_view, name='books-wishlist'),
     path('read/', read_books_view, name='books-read'),
     path('moje-knihovna/', my_library, name='my-library'),
+
+    # Loans
+    path('vypujcky/', loans_view, name='loans'),
 ]

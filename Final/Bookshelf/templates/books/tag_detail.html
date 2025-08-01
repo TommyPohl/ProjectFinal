@@ -2,27 +2,34 @@
 {% block title %}Štítek: {{ tag.name }}{% endblock %}
 
 {% block content %}
-<h2>📚 Knihy se štítkem "{{ tag.name }}"</h2>
-<div class="row">
-  {% for book in books %}
-    <div class="col-md-3 mb-3">
-      <div class="card h-100">
-        {% if book.cover_image %}
-          <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}">
-        {% endif %}
-        <div class="card-body">
-          <h5 class="card-title">{{ book.title }}</h5>
-          <p class="card-text">{{ book.author }}</p>
-          <a href="{% url 'book-detail' book.pk %}" class="btn btn-sm btn-primary">Detail</a>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>🏷️ Štítek: "{{ tag.name }}"</h2>
+  {% if user.is_authenticated %}
+    <div>
+      <a href="{% url 'edit-tag' tag.slug %}" class="btn btn-sm btn-warning me-2">✏️ Upravit</a>
+      <a href="{% url 'delete-tag' tag.slug %}" class="btn btn-sm btn-danger">🗑️ Smazat</a>
+    </div>
+  {% endif %}
+</div>
+
+{% if books %}
+  <div class="row">
+    {% for book in books %}
+      <div class="col-md-3 mb-3">
+        <div class="card h-100">
+          {% if book.cover_image %}
+            <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ book.title }}</h5>
+            <p class="card-text">{{ book.author }}</p>
+            <a href="{% url 'book-detail' book.pk %}" class="btn btn-sm btn-primary">Detail</a>
+          </div>
         </div>
       </div>
-    </div>
-  {% empty %}
-    <p class="text-muted">Žádné knihy nejsou označeny tímto štítkem.</p>
-  {% endfor %}
-</div>
-{% if user.is_authenticated %}
-  <a href="{% url 'edit-tag' tag.slug %}" class="btn btn-sm btn-warning">✏️ Upravit</a>
-  <a href="{% url 'delete-tag' tag.slug %}" class="btn btn-sm btn-danger">🗑️ Smazat</a>
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="text-muted">Žádné knihy nejsou označeny tímto štítkem.</p>
 {% endif %}
 {% endblock %}

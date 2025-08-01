@@ -14,6 +14,7 @@ from ..forms import RatingForm, BookTagForm
 
 import csv
 from io import TextIOWrapper
+from django.urls import reverse
 
 class BookListView(ListView):
     model = Book
@@ -162,7 +163,16 @@ class BookUpdateView(LoginRequiredMixin, UpdateView):
     model = Book
     form_class = BookForm
     template_name = 'books/book_form.html'
-    success_url = reverse_lazy('book-list')
+
+    def get_success_url(self):
+        return reverse('book-detail', kwargs={'pk': self.object.pk})
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        if hasattr(form, 'save_m2m'):
+            form.save_m2m()
+        return response
+
 
 class BookDeleteView(DeleteView):
     model = Book

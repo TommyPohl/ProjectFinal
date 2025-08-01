@@ -1,7 +1,72 @@
 {% extends 'base.html' %}
-{% block title %}Výpůjčky{% endblock %}
+{% block title %}📦 Výpůjčky{% endblock %}
 
 {% block content %}
-<h2>🔄 Výpůjčky</h2>
-<p>Zde bude seznam knih, které si půjčili ostatní uživatelé nebo přátelé. Funkce bude doplněna.</p>
+
+<h2>📦 Výpůjčky</h2>
+
+{% if user.is_authenticated %}
+<h4>➕ Přidat výpůjčku</h4>
+<form method="post">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="id_book" class="form-label">Kniha</label>
+        {{ form.book }}
+    </div>
+
+    <div class="mb-3">
+        <label for="id_borrower_name" class="form-label">Jméno</label>
+        {{ form.borrower_name }}
+    </div>
+
+    <div class="mb-3">
+        <label for="id_contact" class="form-label">Kontakt</label>
+        {{ form.contact }}
+    </div>
+
+    <div class="mb-3">
+        <label for="id_loan_date" class="form-label">Datum výpůjčky</label>
+        {{ form.loan_date }}
+    </div>
+
+    <button type="submit" class="btn btn-success">💾 Uložit výpůjčku</button>
+</form>
+<hr>
+{% endif %}
+
+<h4>📚 Aktuální výpůjčky</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Kniha</th>
+            <th>Vypůjčil</th>
+            <th>Kontakt</th>
+            <th>Datum</th>
+            {% if user.is_authenticated %}
+                <th>Akce</th>
+            {% endif %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for loan in loans %}
+        <tr>
+            <td>{{ loan.book.title }}</td>
+            <td>{{ loan.borrower_name }}</td>
+            <td>{{ loan.contact }}</td>
+            <td>{{ loan.loan_date }}</td>
+            {% if user.is_authenticated %}
+            <td>
+                <form method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" name="return_loan" value="{{ loan.id }}" class="btn btn-success btn-sm">✅ Vráceno</button>
+                </form>
+            </td>
+            {% endif %}
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" class="text-muted">Žádné výpůjčky</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

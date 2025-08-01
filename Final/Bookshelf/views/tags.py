@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models import Avg
 from django.utils.text import slugify
-from ..models import Tag
+from ..models import Tag, Book
 from ..forms import TagForm
 
 @login_required
@@ -22,8 +22,11 @@ def tag_list(request):
 
 def tag_detail(request, slug):
     tag = get_object_or_404(Tag, slug=slug)
-    books = tag.books.annotate(avg_rating=Avg('rating__stars'))
-    return render(request, 'books/tag_detail.html', {'tag': tag, 'books': books})
+    books = Book.objects.filter(tags=tag)
+    return render(request, 'books/tag_detail.html', {
+        'tag': tag,
+        'books': books,
+    })
 
 @login_required
 def edit_tag(request, slug):
