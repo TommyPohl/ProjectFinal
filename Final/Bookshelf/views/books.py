@@ -95,30 +95,65 @@ def add_book(request):
         form = BookForm()
     return render(request, 'books/add_book.html', {'form': form})
 
+
 @login_required
 def import_books(request):
     if request.method == 'POST':
         form = ImportBooksForm(request.POST, request.FILES)
         if form.is_valid():
-            csv_file = TextIOWrapper(request.FILES['csv_file'].file, encoding='utf-8')
-            reader = csv.DictReader(csv_file)
+            # Načteme soubor a odstraníme BOM znak
+            csv_file = TextIOWrapper(request.FILES['csv_file'].file, encoding='utf-8-sig')  # Čteme soubor s BOM
+            content = csv_file.read()  # Přečteme celý obsah souboru
+            content = content.replace('\ufeff', '')  # Odstraníme BOM znak
+
+            # Vytvoříme nový soubor pro CSV čtení bez BOM
+            csv_file = TextIOWrapper(request.FILES['csv_file'].file, encoding='utf-8-sig')
+            # Čteme soubor znovu, protože obsah byl načten a změněn
+            reader = csv.DictReader(content.splitlines())  # Přečteme data z nového souboru
+
             imported = 0
+            skipped = 0
             for row in reader:
-                Book.objects.get_or_create(
+                if 'title' not in row:
+                    print("Chybí 'title' v řádku:", row)  # Logování chybějícího title
+                    skipped += 1
+                    continue  # Pokračujte, pokud 'title' není přítomno
+
+                # Zkontrolujte, zda kniha s danými parametry už neexistuje
+                if Book.objects.filter(
                     title=row['title'],
                     author=row['author'],
-                    defaults={
-                        'description': row.get('description', ''),
-                        'genre': row.get('genre', ''),
-                        'published_date': row.get('published_date') or None,
-                    }
-                )
-                imported += 1
-            messages.success(request, f'Importováno {imported} knih.')
+                    genre=row.get('genre', ''),
+                    series=row.get('series', ''),
+                    location=row.get('location', ''),
+                    description=row.get('description', '')
+                ).exists():
+                    print(f"Kniha {row['title']} již existuje a nebude importována.")  # Logování duplicitní knihy
+                    skipped += 1
+                    continue  # Pokračujte, pokud kniha již existuje
+
+                # Vytvoření knihy v databázi
+                try:
+                    book = Book.objects.create(
+                        title=row['title'],
+                        author=row['author'],
+                        description=row.get('description', ''),
+                        genre=row.get('genre', ''),
+                        published_date=row.get('published_date') or None,
+                        series=row.get('series', ''),
+                        location=row.get('location', ''),
+                    )
+                    print(f"Nová kniha byla přidána: {book.title}")  # Logování přidaných knih
+                    imported += 1
+                except Exception as e:
+                    print(f"Chyba při přidávání knihy {row['title']}: {e}")  # Logování chyb
+
+            messages.success(request, f'Importováno {imported} knih. {skipped} řádků bylo přeskočeno kvůli duplicitám.')
             return redirect('book-list')
     else:
         form = ImportBooksForm()
     return render(request, 'books/import_books.html', {'form': form})
+
 
 def book_detail(request, pk):
     book = get_object_or_404(Book, pk=pk)
@@ -187,19 +222,21 @@ def export_books(request):
     response['Content-Disposition'] = 'attachment; filename="knihy.csv"'
 
     writer = csv.writer(response)
-    response.write('\ufeff')
+    response.write('\ufeff')  # Přidání BOM pro UTF-8
 
-    writer.writerow(['title', 'author', 'description', 'genre', 'published_date', 'location'])
+    # Zápis záhlaví souboru
+    writer.writerow(['title', 'author', 'description', 'genre', 'series', 'location'])
 
+    # Zápis knih do CSV ve správném pořadí
     for book in Book.objects.all():
         writer.writerow([
-            book.title,
-            book.author,
-            book.genre,
-            book.series,
-            book.published_date.strftime('%Y-%m-%d') if book.published_date else '',
-            book.location,
-            book.description,
+            book.title,  # title
+            book.author,  # author
+            book.description,  # description
+            book.genre,  # genre
+            book.series,  # series
+            book.location,  # location
+            book.published_date.strftime('%Y-%m-%d') if book.published_date else '',  # published_date
         ])
 
     return response

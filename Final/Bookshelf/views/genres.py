@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from django.db.models import Count, Avg
 from ..models import Book
-from django.db.models import Q
+from django.db.models.functions import Lower
 
 def genre_list(request):
-    genres = Book.objects.values('genre').annotate(count=Count('id')).order_by('genre')
+    genres = Book.objects.exclude(genre='') \
+        .values('genre') \
+        .annotate(count=Count('id')) \
+        .order_by(Lower('genre'))
     return render(request, 'genres/genre_list.html', {'genres': genres})
 
 def genre_detail(request, genre):

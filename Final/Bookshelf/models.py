@@ -40,6 +40,9 @@ class Book(models.Model):
             img.thumbnail(max_size, Image.Resampling.LANCZOS)
             img.save(img_path)
 
+    class Meta:
+        unique_together = ('title', 'author', 'genre', 'series', 'location', 'description')
+
     def __str__(self):
         return self.title
 

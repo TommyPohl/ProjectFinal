@@ -18,9 +18,13 @@
             display: flex;
             flex-direction: column;
             padding-top: 56px; /* výška topbaru */
+            background-color: #F4E1C1; /* Světle hnědá pozadí */
+            color: #4E3629; /* Tmavě hnědý text */
         }
 
         .topbar {
+            background-color: #8B4513;
+            color: white;
             position: fixed;
             top: 0;
             width: 100%;
@@ -30,13 +34,40 @@
         .main-wrapper {
             display: flex;
             flex: 1;
+            width: 100%;
         }
 
         .sidebar {
-            min-width: 200px;
-            max-width: 200px;
-            background-color: #f8f9fa;
+            width: 200px;
+            background-color: #8B4513;
+            color: white;
             padding: 1rem;
+            flex-shrink: 0;
+        }
+
+        .sidebar .nav {
+            flex: 1;                    /* Zajistí, že seznam položek zabírá celý dostupný prostor */
+            overflow-y: hidden;           /* Povolit scrollování pouze pro seznam položek, pokud bude třeba */
+
+        }
+
+        .sidebar ul {
+            padding-left: 0;  /* Odstraní odsazení seznamu */
+            margin-left: 0;   /* Zajistí, že seznam nebude mít odsazení */
+            list-style-type: none;
+        }
+
+        .sidebar .nav-link {
+            background-color: transparent; /* Bez pozadí pro odkazy */
+            color: white;                   /* Bílý text pro odkazy */
+        }
+
+        .sidebar .nav-link:hover {
+            color: #F1C27D; /* Zlaté odkazy při hoveru */
+        }
+
+        .sidebar .nav-item {
+            margin-bottom: 1rem; /* Oddělení položek */
         }
 
         .content {
@@ -45,11 +76,31 @@
         }
 
         footer {
-            background-color: #f8f9fa;
+            background-color: #8B4513;
+            color: white;
             padding: 1rem;
-            border-top: 1px solid #dee2e6;
             text-align: center;
         }
+
+        .btn-outline-light {
+            border-color: #F1C27D; /* Zlaté okraje tlačítek */
+            color: #F1C27D; /* Zlaté texty tlačítek */
+        }
+
+        .btn-outline-light:hover {
+            background-color: #F1C27D;
+            color: #8B4513;
+        }
+
+        .navbar a:hover, .navbar .btn:hover {
+            color: #8B4513; /* Tmavě hnědé odkazy a tlačítka při najetí */
+            background-color: #F1C27D; /* Oranžové pozadí při hoveru */
+        }
+
+        .navbar a, .navbar .btn {
+            color: #F1C27D; /* Zlaté odkazy a tlačítka */
+        }
+
     </style>
 
     {% block extra_head %}{% endblock %}

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.db.models import Avg
+from django.db.models.functions import Lower
 from django.utils.text import slugify
 from ..models import Tag, Book
 from ..forms import TagForm
@@ -17,7 +17,7 @@ def create_tag(request):
     return render(request, 'books/create_tag.html', {'form': form})
 
 def tag_list(request):
-    tags = Tag.objects.all()
+    tags = Tag.objects.all().order_by(Lower('name'))
     return render(request, 'books/tag_list.html', {'tags': tags})
 
 def tag_detail(request, slug):
