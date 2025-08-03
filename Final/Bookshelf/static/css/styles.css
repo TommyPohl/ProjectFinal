@@ -1,0 +1,149 @@
+/* Základní reset pro tělo */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+/* Základní nastavení pro tělo stránky */
+body {
+    display: flex;
+    flex-direction: column;
+    padding-top: 56px; /* Výška topbaru */
+    background-color: #F4E1C1 !important; /* Světle hnědá pozadí */
+    color: #4E3629; /* Tmavě hnědý text */
+}
+
+/* Nastavení pro topbar */
+.topbar {
+    background-color: #8B4513; /* Hnědá barva pro topbar */
+    color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1040;
+}
+
+.navbar-brand:hover {
+    background-color: #F1C27D; /* Zlatá barva pozadí při hoveru */
+    color: #4E3629; /* Tmavě hnědý text při hoveru */
+    border-radius: 10px; /* Zaoblené rohy rámečku */
+    padding: 4px 8px; /* Přidání paddingu pro správné rozložení */
+}
+
+/* Nastavení pro hlavní wrapper (flexbox) */
+.main-wrapper {
+    display: flex;
+    flex: 1;
+    width: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;  /* Fixní pozice pro sidebar */
+    top: 56px;  /* Výška topbaru, aby se sidebar nezačínal pod ním */
+    left: 0;
+    height: calc(100vh - 56px);  /* Výška sidebaru bude odpovídat výšce okna, ale pod topbar */
+    width: 200px;
+    background-color: #8B4513;
+    padding: 1rem;
+}
+
+/* Sidebar odkazy */
+.sidebar .nav-link {
+    background-color: transparent;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-radius 0.3s ease;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #F1C27D;
+    color: #4E3629 !important;
+    border-radius: 10px;
+    transform: scale(1.1);
+}
+
+.sidebar .nav-item {
+    margin-bottom: 0; /* Oddělení položek */
+}
+
+/* Obsah */
+.content {
+    margin-left: 200px; /* Odsazení hlavního obsahu o šířku sidebaru */
+    padding: 20px;
+    flex: 1;
+}
+
+/* Footer */
+footer {
+    background-color: #8B4513;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+.card-item {
+    background-color: #8B4513; /* Tmavě hnědá barva pro kartu */
+    color: white; /* Bílý text */
+    display: flex; /* Používáme flexbox pro stejné rozměry karet */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    height: 80px;  /* Zajištění jednotné výšky pro všechny karty */
+    width: 180px;  /* Fixní šířka pro všechny štítky */
+    text-decoration: none;
+    border-radius: 15px;
+}
+
+.card-item .tag-badge {
+    font-size: 1rem; /* Zvýšení velikosti písma pro štítky */
+        padding: 4px 20px; /* Větší padding pro štítky */
+        border-radius: 0px; /* Zaoblené rohy pro štítky */
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        background-color: #8B4513; /* Stejná barva štítků jako pozadí políček */
+        color: white; /* Bílý text na štítcích */
+        border: none; /* Odstranění šedého rámečku kolem štítku */
+        transition: background-color 0.3s ease, color 0.3s ease; /* Přechod pro hover efekt */
+    }
+
+
+.card-item .card-body {
+    padding: 0; /* Odstranění paddingu v card-body */
+    margin: 0; /* Odstranění marginu */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Vycentrování obsahuje vše na střed */
+    width: 100%;
+}
+
+.card-item .card {
+    border: none; /* Odstranění rámečku kolem celé karty */
+    padding: 0; /* Odstranění paddingu */
+    margin: 0; /* Odstranění marginu */
+}
+
+/* Efekt při hoveru */
+.card-item:hover {
+    background-color: #F1C27D; /* Zlatá barva při hoveru */
+    transform: scale(1.05); /* Zvětšení karty při hoveru */
+    border-color: #F1C27D; /* Zlatý rámeček při hoveru */
+}
+
+/* Zlatá barva pro badge při hoveru */
+.card-item:hover .tag-badge {
+    background-color: #F1C27D; /* Zlatá barva při hoveru */
+    color: #4E3629; /* Hnědý text při hoveru */
+}
+
+/* Pro mobilní zařízení a menší obrazovky (6 položek na řádku) */
+@media (min-width: 576px) {
+    .row {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr); /* 6 položek na řádku */
+        gap: 20px; /* Mezera mezi položkami */
+    }
+}

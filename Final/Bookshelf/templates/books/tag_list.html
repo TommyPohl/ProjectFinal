@@ -9,13 +9,31 @@
     <a href="{% url 'create-tag' %}" class="btn btn-sm btn-success mb-3">➕ Vytvořit nový štítek</a>
 {% endif %}
 
-<ul class="list-group">
-    {% for tag in tags %}
-        <li class="list-group-item">
-            <a href="{% url 'tag-detail' slug=tag.slug %}">{{ tag.name }}</a>
-        </li>
-    {% empty %}
-        <li class="list-group-item text-muted">Zatím žádné štítky.</li>
-    {% endfor %}
-</ul>
+
+<div class="container">
+    <div class="row">
+        {% for tag in tags %}
+        <div class="col-6 col-md-2 mb-3"> <!-- 6 štítků na větších obrazovkách -->
+            <!-- Odkaz obklopující celé pole -->
+            <a href="{% url 'tag-detail' slug=tag.slug %}" class="card-item">
+                <!-- Karta s jednotnou výškou pro všechny štítky -->
+                <div class="card">
+                    <!-- Flexbox pro centrální umístění textu -->
+                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                        <div class="tag-badge">{{ tag.name }}</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="card p-3 text-center">
+                <span class="badge bg-muted">Zatím žádné štítky.</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
 {% endblock %}
