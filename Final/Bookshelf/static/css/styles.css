@@ -147,3 +147,77 @@ footer {
         gap: 20px; /* Mezera mezi položkami */
     }
 }
+
+.book-card {
+    background-color: #8B4513; /* Tmavě hnědá barva pro kartu */
+    color: white; /* Bílý text */
+    display: flex; /* Používáme flexbox pro stejné rozměry karet */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    height: 300px;  /* Zajištění jednotné výšky pro všechny karty */
+    width: 300px;  /* Fixní šířka pro všechny štítky */
+    text-decoration: none;
+    border-radius: 15px;
+}
+
+/* Rámeček při hoveru */
+.book-card:hover {
+    background-color: #F1C27D; /* Zlaté pozadí při hoveru */
+    transform: scale(1.05); /* Lehký růst při hoveru */
+}
+
+/* Název knihy */
+.book-card .book-title {
+    font-size: 1.2rem; /* Velikost písma pro název */
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px; /* Mezera mezi názvem a obrázkem */
+    color: white; /* Bílý text */
+}
+
+/* Autor knihy */
+.book-card .book-author {
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 5px;
+    color: white;
+}
+
+/* Žánr knihy */
+.book-card .book-genre {
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 5px;
+    color: white;
+}
+
+/* Hodnocení knihy */
+.book-card .book-rating {
+    font-size: 1.2rem;
+    color: white;
+    margin-top: 10px;
+}
+
+/* Obrázek knihy */
+.book-card img {
+    max-width: 100%;
+    max-height: 150px;
+    object-fit: cover; /* Zachování poměru stran obrázku */
+}
+
+/* Zobrazení 4 položek na řádku */
+.row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 položky na řádku */
+    gap: 20px; /* Mezera mezi položkami */
+    padding-top: 20px; /* Padding pro lepší prostor kolem */
+}
+
+@media (max-width: 768px) {
+    /* Pro mobilní zařízení (2 položky na řádku) */
+    .row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
