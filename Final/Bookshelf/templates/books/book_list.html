@@ -73,12 +73,12 @@
                     <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}">
                 {% endif %}
                 <div class="card-body">
-                    <h5 class="card-title">{{ book.title }}</h5>
-                    <p class="card-text">{{ book.author }}</p>
+                    <h5 class="book-title">{{ book.title }}</h5>
+                    <p class="book-author">{{ book.author }}</p>
                     <p class="book-genre">{{ book.genre }}</p>
                     {% if book.avg_rating %}
                         {% with book.avg_rating|floatformat:0 as stars %}
-                            <p class="text-warning mb-0 mt-2">
+                            <p class="book-rating text-warning mb-0 mt-2">
                                 {% for i in "12345" %}
                                     {% if forloop.counter <= stars|add:"0" %}
                                     ⭐
@@ -90,7 +90,7 @@
                             </p>
                         {% endwith %}
                     {% else %}
-                        <p class="text-muted mt-2 mb-0">Zatím nehodnoceno</p>
+                        <p class="mt-2 mb-0" style="color: white;">Zatím nehodnoceno</p>
                     {% endif %}
                 </div>
             </a>

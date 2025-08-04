@@ -204,7 +204,7 @@ footer {
 
 /* Hodnocení knihy */
 .book-card .book-rating {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: white;
     margin-top: 10px;
 }
@@ -214,8 +214,21 @@ footer {
     max-width: 100%;
     max-height: 150px;
     object-fit: cover; /* Zachování poměru stran obrázku */
+    margin-bottom: 10px; /* Mezera mezi obrázkem a textem */
 }
 
+/* Text na card při hoveru */
+.book-card:hover .book-title,
+.book-card:hover .book-author,
+.book-card:hover .book-genre,
+.book-card:hover .book-rating {
+    color: #4E3629 !important; /* Hnědá barva textu při hoveru */
+}
+
+/* Hodnocení (hvězdičky) při hoveru */
+.book-card:hover .book-rating {
+    color: #4E3629 !important; /* Změna barvy textu na hnědou při hoveru */
+}
 
 @media (max-width: 768px) {
     /* Pro mobilní zařízení (2 položky na řádku) */
@@ -239,21 +252,6 @@ select.form-select:focus {
     background-color: #F1E1B3; /* Světlejší odstín pro focus efekt */
     border-color: #8B4513; /* Hnědý okraj při focusu */
     color: #4E3629; /* Tmavě hnědý text při focusu */
-}
-
-.scrollable-window {
-    background-color: #D9CBA7;  /* Světle hnědá barva pro pozadí */
-    color: #4E3629;             /* Tmavě hnědý text */
-    border-radius: 10px;        /* Zaoblené rohy pro rolovací okno */
-    padding: 10px;              /* Padding pro okno */
-    max-height: 300px;          /* Maximální výška pro rolování */
-    overflow-y: auto;           /* Povolit vertikální scrollování */
-}
-
-/* Rolovací okno při focusu */
-.scrollable-window:focus {
-    background-color: #F1E1B3; /* Světlejší pozadí při focusu */
-    border-color: #8B4513;      /* Hnědý okraj při focusu */
 }
 
 /* Tabulka pro výpůjčky */
@@ -291,3 +289,36 @@ select.form-select:focus {
     border: 1px solid #8B4513; /* Hnědý rámeček */
     width: auto; /* Automatická šířka */
 }
+
+/* Zaškrtávací pole */
+.custom-checkbox input[type="checkbox"] {
+    background-color: #D9CBA7; /* Stejná barva pozadí jako textová pole */
+    border: 1px solid #8B4513; /* Hnědý rámeček kolem zaškrtávacího pole */
+    color: #4E3629; /* Tmavě hnědý text */
+}
+
+/* Efekt při zaškrtnutí */
+.custom-checkbox input[type="checkbox"]:checked {
+    background-color: #8B4513; /* Hnědá barva pro zaškrtnuté pole */
+    border: 1px solid #F1C27D; /* Zlatý rámeček pro zaškrtnuté pole */
+    color: white; /* Bílé zaškrtnutí */
+}
+
+/* Efekt při hoveru */
+.custom-checkbox input[type="checkbox"]:hover {
+    background-color: #F1C27D; /* Zlaté pozadí při hoveru */
+    border: 1px solid #8B4513; /* Zlatý rámeček při hoveru */
+}
+
+/* Styl pro label (text vedle checkboxu) */
+.custom-checkbox-label {
+    font-size: 1rem; /* Velikost písma pro štítky */
+    color: #4E3629; /* Tmavě hnědá barva textu */
+}
+
+/* Zvětšení velikosti checkboxu pro lepší vzhled */
+.custom-checkbox input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+}
+
