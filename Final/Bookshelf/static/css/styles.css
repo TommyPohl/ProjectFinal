@@ -11,6 +11,7 @@ body {
     padding-top: 56px; /* Výška topbaru */
     background-color: #F4E1C1 !important; /* Světle hnědá pozadí */
     color: #4E3629; /* Tmavě hnědý text */
+
 }
 
 /* Nastavení pro topbar */
@@ -83,6 +84,13 @@ footer {
     text-align: center;
 }
 
+.row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 6 položek na řádku */
+    gap: 20px; /* Mezera mezi položkami */
+    padding-top: 20px; /* Padding pro lepší prostor kolem */
+}
+
 .card-item {
     background-color: #8B4513; /* Tmavě hnědá barva pro kartu */
     color: white; /* Bílý text */
@@ -95,20 +103,21 @@ footer {
     width: 180px;  /* Fixní šířka pro všechny štítky */
     text-decoration: none;
     border-radius: 15px;
+    box-sizing: border-box;
 }
 
 .card-item .tag-badge {
     font-size: 1rem; /* Zvýšení velikosti písma pro štítky */
-        padding: 4px 20px; /* Větší padding pro štítky */
-        border-radius: 0px; /* Zaoblené rohy pro štítky */
-        display: inline-block;
-        width: 100%;
-        text-align: center;
-        background-color: #8B4513; /* Stejná barva štítků jako pozadí políček */
-        color: white; /* Bílý text na štítcích */
-        border: none; /* Odstranění šedého rámečku kolem štítku */
-        transition: background-color 0.3s ease, color 0.3s ease; /* Přechod pro hover efekt */
-    }
+    padding: 4px 20px; /* Větší padding pro štítky */
+    border-radius: 0px; /* Zaoblené rohy pro štítky */
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    background-color: #8B4513; /* Stejná barva štítků jako pozadí políček */
+    color: white; /* Bílý text na štítcích */
+    border: none; /* Odstranění šedého rámečku kolem štítku */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Přechod pro hover efekt */
+}
 
 
 .card-item .card-body {
@@ -157,7 +166,7 @@ footer {
     align-items: center;
     transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     height: 300px;  /* Zajištění jednotné výšky pro všechny karty */
-    width: 300px;  /* Fixní šířka pro všechny štítky */
+    width: 200px;  /* Fixní šířka pro všechny štítky */
     text-decoration: none;
     border-radius: 15px;
 }
@@ -207,17 +216,78 @@ footer {
     object-fit: cover; /* Zachování poměru stran obrázku */
 }
 
-/* Zobrazení 4 položek na řádku */
-.row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 položky na řádku */
-    gap: 20px; /* Mezera mezi položkami */
-    padding-top: 20px; /* Padding pro lepší prostor kolem */
-}
 
 @media (max-width: 768px) {
     /* Pro mobilní zařízení (2 položky na řádku) */
     .row {
         grid-template-columns: repeat(2, 1fr);
     }
+}
+
+/* Změní barvu pozadí všech textových polí */
+input.form-control,
+textarea.form-control,
+select.form-select {
+    background-color: #D9CBA7; /* Světle hnědá barva pro pozadí textových polí */
+    color: #4E3629; /* Tmavě hnědý text pro lepší kontrast */
+}
+
+/* Změna pozadí textových polí při focusu */
+input.form-control:focus,
+textarea.form-control:focus,
+select.form-select:focus {
+    background-color: #F1E1B3; /* Světlejší odstín pro focus efekt */
+    border-color: #8B4513; /* Hnědý okraj při focusu */
+    color: #4E3629; /* Tmavě hnědý text při focusu */
+}
+
+.scrollable-window {
+    background-color: #D9CBA7;  /* Světle hnědá barva pro pozadí */
+    color: #4E3629;             /* Tmavě hnědý text */
+    border-radius: 10px;        /* Zaoblené rohy pro rolovací okno */
+    padding: 10px;              /* Padding pro okno */
+    max-height: 300px;          /* Maximální výška pro rolování */
+    overflow-y: auto;           /* Povolit vertikální scrollování */
+}
+
+/* Rolovací okno při focusu */
+.scrollable-window:focus {
+    background-color: #F1E1B3; /* Světlejší pozadí při focusu */
+    border-color: #8B4513;      /* Hnědý okraj při focusu */
+}
+
+/* Tabulka pro výpůjčky */
+.table {
+    background-color: #D9CBA7;  /* Světle hnědá barva pro pozadí */
+    color: #4E3629;             /* Tmavě hnědý text */
+    border-radius: 10px;        /* Zaoblené rohy pro tabulku */
+    border: 1px solid #8B4513;  /* Hnědý rámeček kolem tabulky */
+}
+
+/* Tabulka hlavička */
+.table thead {
+    background-color: #8B4513;  /* Hnědá barva pro hlavičku tabulky */
+    color: white;               /* Bílý text v hlavičce */
+}
+
+/* Změna barvy pro řádky tabulky při hoveru */
+.table tbody tr:hover {
+    background-color: #F1C27D;  /* Zlaté pozadí při hoveru */
+}
+
+/* Změna barvy pro buňky tabulky */
+.table td, .table th {
+    padding: 10px;  /* Padding pro buňky */
+    border: 1px solid #8B4513; /* Hnědý rámeček kolem buněk */
+}
+
+.custom-width {
+    width: 300px; /* nebo libovolná požadovaná šířka */
+}
+
+.form-control.custom-width {
+    background-color: #F1E6C1; /* Světle hnědé pozadí */
+    color: #4E3629; /* Tmavě hnědý text */
+    border: 1px solid #8B4513; /* Hnědý rámeček */
+    width: auto; /* Automatická šířka */
 }

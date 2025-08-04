@@ -5,7 +5,7 @@
 
 <div class="row">
     {% for genre in genres %}
-        <div class="col-6 col-md-2 mb-3">  <!-- 6 žánrů na větších obrazovkách -->
+        <div class="col-6 col-md-2">  <!-- 6 žánrů na větších obrazovkách -->
             <!-- Odkaz obklopující celé pole -->
             <a href="{% url 'genre-detail' genre.genre %}" class="card-item">
                 <div class="genre-name">{{ genre.genre }}</div> <!-- Zobrazení názvu žánru -->

@@ -8,35 +8,33 @@
 <div class="row">
     {% for book in books %}
         <div class="col-6 col-md-3 mb-3"> <!-- 4 položky na řádku -->
-            <a href="{% url 'book-detail' book.pk %}" class="card-item">
-                <div class="card h-100">
+            <a href="{% url 'book-detail' book.pk %}" class="book-card"> <!-- Přebíráme book-card třídu -->
+                <div class="card-body d-flex flex-column justify-content-center align-items-center">
                     <!-- Obrázek knihy -->
                     {% if book.cover_image %}
                         <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}">
                     {% endif %}
-                    <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                        <!-- Název knihy -->
-                        <div class="item-name">{{ book.title }}</div>
-                        <!-- Autor -->
-                        <div class="item-author">{{ book.author }}</div>
-                        <!-- Hodnocení -->
-                        {% if book.avg_rating %}
-                            <div class="item-rating">
-                                {% with book.avg_rating|floatformat:0 as stars %}
-                                    {% for i in "12345" %}
-                                        {% if forloop.counter <= stars %}
-                                            ⭐
-                                        {% else %}
-                                            ☆
-                                        {% endif %}
-                                    {% endfor %}
-                                    ({{ book.avg_rating|floatformat:1 }}★)
-                                {% endwith %}
-                            </div>
-                        {% else %}
-                            <div class="item-rating text-muted">Zatím nehodnoceno</div>
-                        {% endif %}
-                    </div>
+                    <!-- Název knihy -->
+                    <div class="item-name">{{ book.title }}</div>
+                    <!-- Autor -->
+                    <div class="item-author">{{ book.author }}</div>
+                    <!-- Hodnocení -->
+                    {% if book.avg_rating %}
+                        <div class="item-rating">
+                            {% with book.avg_rating|floatformat:0 as stars %}
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= stars %}
+                                        ⭐
+                                    {% else %}
+                                        ☆
+                                    {% endif %}
+                                {% endfor %}
+                                ({{ book.avg_rating|floatformat:1 }}★)
+                            {% endwith %}
+                        </div>
+                    {% else %}
+                        <div class="item-rating text-muted">Zatím nehodnoceno</div>
+                    {% endif %}
                 </div>
             </a>
         </div>

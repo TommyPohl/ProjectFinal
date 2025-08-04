@@ -9,31 +9,31 @@
 <!-- 🔍 Vyhledávání a filtrování -->
 <form method="get" class="mb-4">
     <div class="row g-2 align-items-end">
-        <div class="col-md-3">
+        <div class="col-md-10">
             <label for="search" class="form-label">Hledat</label>
             <input type="text" name="q" id="search" value="{{ request.GET.q }}" class="form-control" placeholder="Název nebo autor">
         </div>
-        <div class="col-md-2">
+        <div class="col-md-10">
             <label for="author" class="form-label">Autor</label>
             <input type="text" name="author" id="author" value="{{ request.GET.author }}" class="form-control">
         </div>
-        <div class="col-md-2">
+        <div class="col-md-10">
             <label for="genre" class="form-label">Žánr</label>
             <input type="text" name="genre" id="genre" value="{{ request.GET.genre }}" class="form-control">
         </div>
-        <div class="col-md-2">
+        <div class="col-md-10">
             <label for="series" class="form-label">Série</label>
             <input type="text" name="series" id="series" value="{{ request.GET.series }}" class="form-control">
         </div>
-        <div class="col-md-2">
+        <div class="col-md-10">
             <label for="location" class="form-label">Umístění</label>
             <input type="text" name="location" id="location" value="{{ request.GET.location }}" class="form-control">
         </div>
-        <div class="col-md-2">
+        <div class="col-md-10">
             <label for="tag" class="form-label">Štítek</label>
             <input type="text" name="tag" id="tag" value="{{ request.GET.tag }}" class="form-control">
         </div>
-        <div class="col-md-3">
+        <div class="col-md-10">
             <label for="sort" class="form-label">Řadit podle</label>
             <select name="sort" id="sort" class="form-select">
                 <option value="">-- Výchozí --</option>
@@ -48,13 +48,14 @@
                 <option value="published" {% if sort_by == "published" %}selected{% endif %}>Datum přidání (nejnovější)</option>
                 <option value="published_desc" {% if sort_by == "published_desc" %}selected{% endif %}>Datum přidání (nejstarší)</option>
             </select>
-
         </div>
-        <div class="col-md-2">
+        <div class="col-md-10">
             <button type="submit" class="btn btn-primary w-100 mt-2">🔎 Filtrovat</button>
         </div>
     </div>
 </form>
+
+
 
 {% if user.is_authenticated %}
 <a href="{% url 'add-book' %}" class="btn btn-sm btn-success mb-2">➕ Přidat knihu</a>

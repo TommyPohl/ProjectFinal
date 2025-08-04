@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% block title %}📦 Výpůjčky{% endblock %}
 
 {% block content %}
@@ -12,25 +13,25 @@
 
     <div class="mb-3">
         <label for="id_book" class="form-label">Kniha</label>
-        {{ form.book }}
+        <input type="text" name="book" id="id_book" class="form-control custom-width" value="{{ form.book.value }}">
     </div>
 
     <div class="mb-3">
         <label for="id_borrower_name" class="form-label">Jméno</label>
-        {{ form.borrower_name }}
+        <input type="text" name="borrower_name" id="id_borrower_name" class="form-control custom-width" value="{{ form.borrower_name.value }}">
     </div>
 
     <div class="mb-3">
         <label for="id_contact" class="form-label">Kontakt</label>
-        {{ form.contact }}
+        <input type="text" name="contact" id="id_contact" class="form-control custom-width" value="{{ form.contact.value }}">
     </div>
 
     <div class="mb-3">
         <label for="id_loan_date" class="form-label">Datum výpůjčky</label>
-        {{ form.loan_date }}
+        <input type="date" name="loan_date" id="id_loan_date" class="form-control custom-width" value="{{ form.loan_date.value }}">
     </div>
 
-    <button type="submit" class="btn btn-success">💾 Uložit výpůjčku</button>
+    <button type="submit" class="btn btn-success mt-3">💾 Uložit výpůjčku</button>
 </form>
 <hr>
 {% endif %}

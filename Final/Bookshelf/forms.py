@@ -15,6 +15,15 @@ class BookForm(forms.ModelForm):
             'tags': forms.CheckboxSelectMultiple(),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Přidání třídy CSS pro všechna formulářová pole
+        self.fields['title'].widget.attrs.update({'class': 'form-control custom-width'})
+        self.fields['author'].widget.attrs.update({'class': 'form-control custom-width'})
+        self.fields['description'].widget.attrs.update({'class': 'form-control custom-width'})
+        self.fields['genre'].widget.attrs.update({'class': 'form-control custom-width'})
+        self.fields['series'].widget.attrs.update({'class': 'form-control custom-width'})
+        self.fields['location'].widget.attrs.update({'class': 'form-control custom-width'})
 
 class ImportBooksForm(forms.Form):
     csv_file = forms.FileField(label="CSV soubor")
@@ -43,6 +52,10 @@ class TagForm(forms.ModelForm):
         fields = ['name']
         labels = {'name': 'Název štítku'}
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].initial = ""
+
 class BookTagForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(
         queryset=Tag.objects.all(),
@@ -58,9 +71,10 @@ class LoanForm(forms.ModelForm):
     class Meta:
         model = Loan
         fields = ['book', 'borrower_name', 'contact', 'loan_date']
-        widgets = {
-            'book': forms.Select(attrs={'class': 'form-control'}),
-            'borrower_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'contact': forms.TextInput(attrs={'class': 'form-control'}),
-            'loan_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['book'].widget.attrs.update({'class': 'form-control custom-width'})
+        self.fields['borrower_name'].widget.attrs.update({'class': 'form-control custom-width'})
+        self.fields['contact'].widget.attrs.update({'class': 'form-control custom-width'})
+        self.fields['loan_date'].widget.attrs.update({'class': 'form-control custom-width'})
