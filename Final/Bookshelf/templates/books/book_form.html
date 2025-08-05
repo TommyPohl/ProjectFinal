@@ -48,9 +48,9 @@
       <label class="form-label">Štítky</label>
       <div>
         {% for checkbox in form.tags %}
-          <div class="form-check form-check-inline">
+          <div class="form-check form-check-inline custom-checkbox">
             {{ checkbox.tag }}
-            <label for="{{ checkbox.id_for_label }}" class="form-check-label ms-1">
+            <label for="{{ checkbox.id_for_label }}" class="form-check-label custom-checkbox-label ms-1">
               {{ checkbox.choice_label }}
             </label>
           </div>
@@ -59,6 +59,6 @@
     </div>
 
 
-    <button type="submit" class="btn btn-primary">💾 Uložit změny</button>
+    <button type="submit" class="btn btn-success">💾 Uložit změny</button>
 </form>
 {% endblock %}

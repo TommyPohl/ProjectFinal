@@ -19,6 +19,9 @@ from django.urls import path, include
 from Bookshelf import views
 from django.conf import settings
 from django.conf.urls.static import static
+from Bookshelf.views._404 import custom_404_view
+
+handler404 = 'Bookshelf.views._404.custom_404_view'
 
 urlpatterns = [
     path('', views.home, name='home'),

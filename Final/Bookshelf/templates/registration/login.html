@@ -6,7 +6,17 @@
 <h2>Přihlášení</h2>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+
+    <div class="mb-3">
+        <label for="{{ form.username.id_for_label }}" class="form-label">Uživatelské jméno</label>
+        {{ form.username }}
+    </div>
+
+    <div class="mb-3">
+        <label for="{{ form.password.id_for_label }}" class="form-label">Heslo</label>
+        {{ form.password }}
+    </div>
+
     <button type="submit" class="btn btn-success">Přihlásit</button>
 </form>
 {% endblock %}

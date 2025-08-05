@@ -9,31 +9,31 @@
     {% for book in books %}
         <div class="col-6 col-md-3 mb-3"> <!-- 4 položky na řádku -->
             <a href="{% url 'book-detail' book.pk %}" class="book-card"> <!-- Přebíráme book-card třídu -->
-                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                <div class="card-body text-center">
                     <!-- Obrázek knihy -->
                     {% if book.cover_image %}
                         <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}">
                     {% endif %}
                     <!-- Název knihy -->
-                    <div class="item-name">{{ book.title }}</div>
+                    <h5 class="book-title">{{ book.title }}</h5>
                     <!-- Autor -->
-                    <div class="item-author">{{ book.author }}</div>
+                    <p class="book-author">{{ book.author }}</p>
                     <!-- Hodnocení -->
                     {% if book.avg_rating %}
-                        <div class="item-rating">
-                            {% with book.avg_rating|floatformat:0 as stars %}
+                        {% with book.avg_rating|floatformat:0 as stars %}
+                            <p class="text-warning mb-0">
                                 {% for i in "12345" %}
-                                    {% if forloop.counter <= stars %}
+                                    {% if forloop.counter <= stars|add:"0" %}
                                         ⭐
                                     {% else %}
                                         ☆
                                     {% endif %}
                                 {% endfor %}
                                 ({{ book.avg_rating|floatformat:1 }}★)
-                            {% endwith %}
-                        </div>
+                            </p>
+                        {% endwith %}
                     {% else %}
-                        <div class="item-rating text-muted">Zatím nehodnoceno</div>
+                        <p class="book-rating text-muted">Zatím nehodnoceno</p>
                     {% endif %}
                 </div>
             </a>

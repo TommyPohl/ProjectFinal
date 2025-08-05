@@ -6,58 +6,47 @@
     <h1>Vítejte v My Bookshelf!</h1>
     <p>Katalogizačním nástroji, aby se v tom knižním moři dalo nějak vyznat.</p>
 
-    <div class="mt-4">
-    <h4>📚 Nově přidané knihy</h4>
-<div class="row">
-    {% for book in newest_books %}
-        <div class="col-md-3 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <a href="{% url 'book-detail' book.pk %}" style="text-decoration: none; color: inherit;">
-                            {{ book.title }}
-                        </a>
-                    </h5>
-                    <p class="card-text">{{ book.author }}</p>
-
-                    {% if book.avg_rating %}
-                        {% with book.avg_rating|floatformat:0 as stars %}
-                            <p class="text-warning mb-0">
-                                {% for i in "12345" %}
-                                    {% if forloop.counter <= stars|add:"0" %}
-                                        ⭐
-                                    {% else %}
-                                        ☆
-                                    {% endif %}
-                                {% endfor %}
-                                ({{ book.avg_rating|floatformat:1 }}★)
-                            </p>
-                        {% endwith %}
-                    {% else %}
-                        <p class="text-muted mb-0">Zatím nehodnoceno</p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
+    <!-- Nově přidané knihy -->
+<div class="mt-4">
+  <h4>📚 Nově přidané knihy
+    <a href="{% url 'book-list' %}?sort=newest" class="btn btn-sm btn-link float-end">Zobrazit vše</a>
+  </h4>
+  <div class="row">
+    {% for book in recently_added_books %}
+      <div class="col-md-3 mb-3">
+        <!-- Přebírání book-card CSS pro zobrazení karet -->
+        <a href="{% url 'book-detail' book.pk %}" class="book-card">
+          {% if book.cover_image %}
+            <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}" style="width: 100%; height: 200px; object-fit: cover;">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="book-title">{{ book.title }}</h5>
+            <p class="book-author">{{ book.author }}</p>
+          </div>
+        </a>
+      </div>
     {% empty %}
-        <p class="text-muted">Zatím žádné knihy</p>
+      <p class="text-muted">Žádné nové knihy.</p>
     {% endfor %}
+  </div>
 </div>
 
-</div>
 
-<div class="mt-4">
-    <h4>⭐ Naposledy hodnoceno</h4>
-    {% for r in recently_rated %}
-        <p><strong>{{ r.user.username }}</strong> ohodnotil <a href="{% url 'book-detail' r.book.pk %}">{{ r.book.title }}</a>: {{ r.stars }}★</p>
-    {% endfor %}
-</div>
+    <!-- Naposledy hodnoceno -->
+    <div class="mt-4">
+        <h4>⭐ Naposledy hodnoceno</h4>
+        {% for r in recently_rated %}
+            <p><strong>{{ r.user.username }}</strong> ohodnotil <a href="{% url 'book-detail' r.book.pk %}">{{ r.book.title }}</a>: {{ r.stars }}★</p>
+        {% endfor %}
+    </div>
 
-<div class="mt-4">
-    <h4>💬 Poslední komentáře</h4>
-    {% for r in recent_comments %}
-        <p><strong>{{ r.user.username }}</strong> ke knize <a href="{% url 'book-detail' r.book.pk %}">{{ r.book.title }}</a>:
-        {{ r.comment|truncatewords:15 }}</p>
-    {% endfor %}
-</div>
+    <!-- Poslední komentáře -->
+    <div class="mt-4">
+        <h4>💬 Poslední komentáře</h4>
+        {% for r in recent_comments %}
+            <p><strong>{{ r.user.username }}</strong> ke knize <a href="{% url 'book-detail' r.book.pk %}">{{ r.book.title }}</a>:
+            {{ r.comment|truncatewords:15 }}</p>
+        {% endfor %}
+    </div>
+
 {% endblock %}

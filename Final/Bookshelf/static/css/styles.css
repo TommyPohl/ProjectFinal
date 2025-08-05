@@ -145,7 +145,7 @@ footer {
 /* Zlatá barva pro badge při hoveru */
 .card-item:hover .tag-badge {
     background-color: #F1C27D; /* Zlatá barva při hoveru */
-    color: #4E3629; /* Hnědý text při hoveru */
+    color: #4E3629 !important; /* Hnědý text při hoveru */
 }
 
 /* Pro mobilní zařízení a menší obrazovky (6 položek na řádku) */

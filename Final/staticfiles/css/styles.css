@@ -1,0 +1,324 @@
+/* Základní reset pro tělo */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+/* Základní nastavení pro tělo stránky */
+body {
+    display: flex;
+    flex-direction: column;
+    padding-top: 56px; /* Výška topbaru */
+    background-color: #F4E1C1 !important; /* Světle hnědá pozadí */
+    color: #4E3629; /* Tmavě hnědý text */
+
+}
+
+/* Nastavení pro topbar */
+.topbar {
+    background-color: #8B4513; /* Hnědá barva pro topbar */
+    color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1040;
+}
+
+.navbar-brand:hover {
+    background-color: #F1C27D; /* Zlatá barva pozadí při hoveru */
+    color: #4E3629; /* Tmavě hnědý text při hoveru */
+    border-radius: 10px; /* Zaoblené rohy rámečku */
+    padding: 4px 8px; /* Přidání paddingu pro správné rozložení */
+}
+
+/* Nastavení pro hlavní wrapper (flexbox) */
+.main-wrapper {
+    display: flex;
+    flex: 1;
+    width: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;  /* Fixní pozice pro sidebar */
+    top: 56px;  /* Výška topbaru, aby se sidebar nezačínal pod ním */
+    left: 0;
+    height: calc(100vh - 56px);  /* Výška sidebaru bude odpovídat výšce okna, ale pod topbar */
+    width: 200px;
+    background-color: #8B4513;
+    padding: 1rem;
+}
+
+/* Sidebar odkazy */
+.sidebar .nav-link {
+    background-color: transparent;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-radius 0.3s ease;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #F1C27D;
+    color: #4E3629 !important;
+    border-radius: 10px;
+    transform: scale(1.1);
+}
+
+.sidebar .nav-item {
+    margin-bottom: 0; /* Oddělení položek */
+}
+
+/* Obsah */
+.content {
+    margin-left: 200px; /* Odsazení hlavního obsahu o šířku sidebaru */
+    padding: 20px;
+    flex: 1;
+}
+
+/* Footer */
+footer {
+    background-color: #8B4513;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); /* 6 položek na řádku */
+    gap: 20px; /* Mezera mezi položkami */
+    padding-top: 20px; /* Padding pro lepší prostor kolem */
+}
+
+.card-item {
+    background-color: #8B4513; /* Tmavě hnědá barva pro kartu */
+    color: white; /* Bílý text */
+    display: flex; /* Používáme flexbox pro stejné rozměry karet */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    height: 80px;  /* Zajištění jednotné výšky pro všechny karty */
+    width: 180px;  /* Fixní šířka pro všechny štítky */
+    text-decoration: none;
+    border-radius: 15px;
+    box-sizing: border-box;
+}
+
+.card-item .tag-badge {
+    font-size: 1rem; /* Zvýšení velikosti písma pro štítky */
+    padding: 4px 20px; /* Větší padding pro štítky */
+    border-radius: 0px; /* Zaoblené rohy pro štítky */
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    background-color: #8B4513; /* Stejná barva štítků jako pozadí políček */
+    color: white; /* Bílý text na štítcích */
+    border: none; /* Odstranění šedého rámečku kolem štítku */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Přechod pro hover efekt */
+}
+
+
+.card-item .card-body {
+    padding: 0; /* Odstranění paddingu v card-body */
+    margin: 0; /* Odstranění marginu */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Vycentrování obsahuje vše na střed */
+    width: 100%;
+}
+
+.card-item .card {
+    border: none; /* Odstranění rámečku kolem celé karty */
+    padding: 0; /* Odstranění paddingu */
+    margin: 0; /* Odstranění marginu */
+}
+
+/* Efekt při hoveru */
+.card-item:hover {
+    background-color: #F1C27D; /* Zlatá barva při hoveru */
+    transform: scale(1.05); /* Zvětšení karty při hoveru */
+    border-color: #F1C27D; /* Zlatý rámeček při hoveru */
+}
+
+/* Zlatá barva pro badge při hoveru */
+.card-item:hover .tag-badge {
+    background-color: #F1C27D; /* Zlatá barva při hoveru */
+    color: #4E3629; /* Hnědý text při hoveru */
+}
+
+/* Pro mobilní zařízení a menší obrazovky (6 položek na řádku) */
+@media (min-width: 576px) {
+    .row {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr); /* 6 položek na řádku */
+        gap: 20px; /* Mezera mezi položkami */
+    }
+}
+
+.book-card {
+    background-color: #8B4513; /* Tmavě hnědá barva pro kartu */
+    color: white; /* Bílý text */
+    display: flex; /* Používáme flexbox pro stejné rozměry karet */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    height: 300px;  /* Zajištění jednotné výšky pro všechny karty */
+    width: 200px;  /* Fixní šířka pro všechny štítky */
+    text-decoration: none;
+    border-radius: 15px;
+}
+
+/* Rámeček při hoveru */
+.book-card:hover {
+    background-color: #F1C27D; /* Zlaté pozadí při hoveru */
+    transform: scale(1.05); /* Lehký růst při hoveru */
+}
+
+/* Název knihy */
+.book-card .book-title {
+    font-size: 1.2rem; /* Velikost písma pro název */
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px; /* Mezera mezi názvem a obrázkem */
+    color: white; /* Bílý text */
+}
+
+/* Autor knihy */
+.book-card .book-author {
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 5px;
+    color: white;
+}
+
+/* Žánr knihy */
+.book-card .book-genre {
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 5px;
+    color: white;
+}
+
+/* Hodnocení knihy */
+.book-card .book-rating {
+    font-size: 1rem;
+    color: white;
+    margin-top: 10px;
+}
+
+/* Obrázek knihy */
+.book-card img {
+    max-width: 100%;
+    max-height: 150px;
+    object-fit: cover; /* Zachování poměru stran obrázku */
+    margin-bottom: 10px; /* Mezera mezi obrázkem a textem */
+}
+
+/* Text na card při hoveru */
+.book-card:hover .book-title,
+.book-card:hover .book-author,
+.book-card:hover .book-genre,
+.book-card:hover .book-rating {
+    color: #4E3629 !important; /* Hnědá barva textu při hoveru */
+}
+
+/* Hodnocení (hvězdičky) při hoveru */
+.book-card:hover .book-rating {
+    color: #4E3629 !important; /* Změna barvy textu na hnědou při hoveru */
+}
+
+@media (max-width: 768px) {
+    /* Pro mobilní zařízení (2 položky na řádku) */
+    .row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Změní barvu pozadí všech textových polí */
+input.form-control,
+textarea.form-control,
+select.form-select {
+    background-color: #D9CBA7; /* Světle hnědá barva pro pozadí textových polí */
+    color: #4E3629; /* Tmavě hnědý text pro lepší kontrast */
+}
+
+/* Změna pozadí textových polí při focusu */
+input.form-control:focus,
+textarea.form-control:focus,
+select.form-select:focus {
+    background-color: #F1E1B3; /* Světlejší odstín pro focus efekt */
+    border-color: #8B4513; /* Hnědý okraj při focusu */
+    color: #4E3629; /* Tmavě hnědý text při focusu */
+}
+
+/* Tabulka pro výpůjčky */
+.table {
+    background-color: #D9CBA7;  /* Světle hnědá barva pro pozadí */
+    color: #4E3629;             /* Tmavě hnědý text */
+    border-radius: 10px;        /* Zaoblené rohy pro tabulku */
+    border: 1px solid #8B4513;  /* Hnědý rámeček kolem tabulky */
+}
+
+/* Tabulka hlavička */
+.table thead {
+    background-color: #8B4513;  /* Hnědá barva pro hlavičku tabulky */
+    color: white;               /* Bílý text v hlavičce */
+}
+
+/* Změna barvy pro řádky tabulky při hoveru */
+.table tbody tr:hover {
+    background-color: #F1C27D;  /* Zlaté pozadí při hoveru */
+}
+
+/* Změna barvy pro buňky tabulky */
+.table td, .table th {
+    padding: 10px;  /* Padding pro buňky */
+    border: 1px solid #8B4513; /* Hnědý rámeček kolem buněk */
+}
+
+.custom-width {
+    width: 300px; /* nebo libovolná požadovaná šířka */
+}
+
+.form-control.custom-width {
+    background-color: #F1E6C1; /* Světle hnědé pozadí */
+    color: #4E3629; /* Tmavě hnědý text */
+    border: 1px solid #8B4513; /* Hnědý rámeček */
+    width: auto; /* Automatická šířka */
+}
+
+/* Zaškrtávací pole */
+.custom-checkbox input[type="checkbox"] {
+    background-color: #D9CBA7; /* Stejná barva pozadí jako textová pole */
+    border: 1px solid #8B4513; /* Hnědý rámeček kolem zaškrtávacího pole */
+    color: #4E3629; /* Tmavě hnědý text */
+}
+
+/* Efekt při zaškrtnutí */
+.custom-checkbox input[type="checkbox"]:checked {
+    background-color: #8B4513; /* Hnědá barva pro zaškrtnuté pole */
+    border: 1px solid #F1C27D; /* Zlatý rámeček pro zaškrtnuté pole */
+    color: white; /* Bílé zaškrtnutí */
+}
+
+/* Efekt při hoveru */
+.custom-checkbox input[type="checkbox"]:hover {
+    background-color: #F1C27D; /* Zlaté pozadí při hoveru */
+    border: 1px solid #8B4513; /* Zlatý rámeček při hoveru */
+}
+
+/* Styl pro label (text vedle checkboxu) */
+.custom-checkbox-label {
+    font-size: 1rem; /* Velikost písma pro štítky */
+    color: #4E3629; /* Tmavě hnědá barva textu */
+}
+
+/* Zvětšení velikosti checkboxu pro lepší vzhled */
+.custom-checkbox input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+}
+
