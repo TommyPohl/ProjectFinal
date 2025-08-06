@@ -6,7 +6,6 @@
     <h1>Vítejte v My Bookshelf!</h1>
     <p>Katalogizačním nástroji, aby se v tom knižním moři dalo nějak vyznat.</p>
 
-    <!-- Nově přidané knihy -->
 <div class="mt-4">
   <h4>📚 Nově přidané knihy
     <a href="{% url 'book-list' %}?sort=newest" class="btn btn-sm btn-link float-end">Zobrazit vše</a>
@@ -14,7 +13,6 @@
   <div class="row">
     {% for book in recently_added_books %}
       <div class="col-md-3 mb-3">
-        <!-- Přebírání book-card CSS pro zobrazení karet -->
         <a href="{% url 'book-detail' book.pk %}" class="book-card">
           {% if book.cover_image %}
             <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}" style="width: 100%; height: 200px; object-fit: cover;">
@@ -31,8 +29,6 @@
   </div>
 </div>
 
-
-    <!-- Naposledy hodnoceno -->
     <div class="mt-4">
         <h4>⭐ Naposledy hodnoceno</h4>
         {% for r in recently_rated %}
@@ -40,7 +36,6 @@
         {% endfor %}
     </div>
 
-    <!-- Poslední komentáře -->
     <div class="mt-4">
         <h4>💬 Poslední komentáře</h4>
         {% for r in recent_comments %}

@@ -12,8 +12,7 @@
 
 <div class="row">
     {% for author in authors %}
-    <div class="col-6 col-md-2">  <!-- 6 autorů na větších obrazovkách -->
-        <!-- Odkaz obklopující celé pole -->
+    <div class="col-6 col-md-2">
         <a href="{% url 'books-by-author' author.author %}" class="card-item">
             <div class="author-name">{{ author.author }}</div>
             <span class="badge bg-secondary rounded-pill">{{ author.book_count }}</span>

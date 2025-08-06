@@ -1,9 +1,9 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark topbar" style="background-color: #8B4513; height: 60px;"> <!-- Fixní výška pro header -->
-    <div class="container-fluid d-flex justify-content-between align-items-center"> <!-- align-items-center pro vertikální centrování -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark topbar" style="background-color: #8B4513; height: 60px;">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
         <a class="navbar-brand d-flex align-items-center" href="/">
             <img src="{% static 'images/logo.png' %}" alt="Logo" style="height: 50px; width: auto;">
-            <span class="ms-2">My Bookshelf</span> <!-- mezeru mezi logem a textem -->
+            <span class="ms-2">My Bookshelf</span>
         </a>
         <div>
             {% if user.is_authenticated %}

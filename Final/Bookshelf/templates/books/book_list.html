@@ -6,7 +6,6 @@
 
 <h2>📖 Všechny knihy</h2>
 
-<!-- 🔍 Vyhledávání a filtrování -->
 <form method="get" class="mb-4">
     <div class="row g-2 align-items-end">
         <div class="col-md-10">
@@ -55,8 +54,6 @@
     </div>
 </form>
 
-
-
 {% if user.is_authenticated %}
 <a href="{% url 'add-book' %}" class="btn btn-sm btn-success mb-2">➕ Přidat knihu</a>
 <a href="{% url 'import-books' %}" class="btn btn-sm btn-secondary mb-2">📥 Import knih (CSV)</a>
@@ -64,13 +61,13 @@
 
 {% endif %}
 
-<!-- 📚 Seznam knih -->
+<!-- Seznam knih -->
 <div class="row">
     {% for book in books %}
         <div class="col-6 col-md-3 mb-3">
             <a href="{% url 'book-detail' book.id %}" class="book-card">
                 {% if book.cover_image %}
-                    <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}">
+                    <img src="{{ book.cover_image.url }}" class="card-img">
                 {% endif %}
                 <div class="card-body">
                     <h5 class="book-title">{{ book.title }}</h5>
@@ -100,8 +97,7 @@
     {% endfor %}
 </div>
 
-
-<!-- 📄 Stránkování -->
+<!-- Stránkování -->
 {% if is_paginated %}
 <nav>
   <ul class="pagination justify-content-center">
@@ -129,6 +125,5 @@
   </ul>
 </nav>
 {% endif %}
-
 
 {% endblock %}

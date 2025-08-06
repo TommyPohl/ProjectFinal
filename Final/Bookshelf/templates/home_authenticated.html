@@ -12,7 +12,6 @@
   <div class="row">
     {% for book in recently_added_books %}
       <div class="col-md-3 mb-3">
-        <!-- Přebírání book-card CSS pro zobrazení karet -->
         <a href="{% url 'book-detail' book.pk %}" class="book-card">
           {% if book.cover_image %}
             <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}" style="width: 100%; height: 200px; object-fit: cover;">
@@ -36,7 +35,6 @@
   <div class="row">
     {% for book in recently_read %}
       <div class="col-md-3 mb-3">
-        <!-- Přebírání book-card CSS pro zobrazení karet -->
         <a href="{% url 'book-detail' book.pk %}" class="book-card">
           {% if book.cover_image %}
             <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}" style="width: 100%; height: 200px; object-fit: cover;">
@@ -64,15 +62,12 @@
     {% endfor %}
   </div>
 </div>
-
-
 
 <div class="mt-4">
   <h4>📌 Chystám se číst <a href="{% url 'books-wishlist' %}" class="btn btn-sm btn-link float-end">Zobrazit vše</a></h4>
   <div class="row">
     {% for book in to_read %}
       <div class="col-md-3 mb-3">
-        <!-- Přebírání book-card CSS pro zobrazení karet -->
         <a href="{% url 'book-detail' book.pk %}" class="book-card">
           {% if book.cover_image %}
             <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}" style="width: 100%; height: 200px; object-fit: cover;">
@@ -101,13 +96,11 @@
   </div>
 </div>
 
-
 <div class="mt-4">
   <h4>⭐ Moje nejlépe hodnocené <a href="{% url 'books-best-rated' %}" class="btn btn-sm btn-link float-end">Zobrazit vše</a></h4>
   <div class="row">
     {% for book in best_rated_books %}
       <div class="col-md-3 mb-3">
-        <!-- Přebírání book-card CSS pro zobrazení karet -->
         <a href="{% url 'book-detail' book.pk %}" class="book-card">
           {% if book.cover_image %}
             <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}"
@@ -138,15 +131,12 @@
     {% endfor %}
   </div>
 </div>
-
-
 
 <div class="mt-4">
   <h4>💩 Moje nejhůře hodnocené <a href="{% url 'books-worst-rated' %}" class="btn btn-sm btn-link float-end">Zobrazit vše</a></h4>
   <div class="row">
     {% for book in worst_rated_books %}
       <div class="col-md-3 mb-3">
-        <!-- Přebírání book-card CSS pro zobrazení karet -->
         <a href="{% url 'book-detail' book.pk %}" class="book-card">
           {% if book.cover_image %}
             <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}"
@@ -177,6 +167,5 @@
     {% endfor %}
   </div>
 </div>
-
 
 {% endblock %}

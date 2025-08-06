@@ -8,9 +8,9 @@
 <div class="row">
     <div class="col-md-4">
         {% if book.cover_image %}
-            <img src="{{ book.cover_image.url }}" class="img-fluid" alt="{{ book.title }}">
+            <img src="{{ book.cover_image.url }}" alt="{{ book.title }}" class="book-detail-image">
         {% else %}
-            <p class="text-muted">Bez obálky</p>
+            <p class="text-muted">Obrázek není k dispozici</p>
         {% endif %}
     </div>
     <div class="col-md-8">
@@ -18,7 +18,9 @@
         <p><strong>Žánr:</strong> {{ book.genre }}</p>
         <hr>
         <p><strong>Popis:</strong></p>
-        <p>{{ book.description|linebreaks }}</p>
+        <div class="description">
+            <p>{{ book.description|linebreaks }}</p>
+        </div>
         <a href="{% url 'book-list' %}" class="btn btn-secondary mt-3">← Zpět na seznam</a>
 
         {% if user.is_authenticated %}
@@ -83,7 +85,6 @@
 {% empty %}
     <p class="text-muted">Zatím žádné komentáře.</p>
 {% endfor %}
-
 
 {% if user.is_authenticated and rating_form %}
   <h5>📥 Přidat hodnocení</h5>

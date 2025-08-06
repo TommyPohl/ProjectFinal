@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.conf import settings
 
 from Bookshelf.views.books import (
     BookListView, book_detail, add_book, import_books,
@@ -19,7 +18,6 @@ from Bookshelf.views.loans import loans_view
 from Bookshelf.views import loans
 
 from Bookshelf.views._404 import custom_404_view
-from django.conf.urls import handler404
 
 handler404 = 'Bookshelf.views._404.custom_404_view'
 

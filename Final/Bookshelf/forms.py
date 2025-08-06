@@ -17,7 +17,6 @@ class BookForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Přidání třídy CSS pro všechna formulářová pole
         self.fields['title'].widget.attrs.update({'class': 'form-control custom-width'})
         self.fields['author'].widget.attrs.update({'class': 'form-control custom-width'})
         self.fields['description'].widget.attrs.update({'class': 'form-control custom-width'})

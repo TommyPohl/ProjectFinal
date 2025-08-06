@@ -8,14 +8,15 @@
 
 <div class="row">
     {% for book in books %}
-        <div class="col-md-4 mb-3"> <!-- Změněno na col-md-4 pro 3 karty na řádku -->
-            <a href="{% url 'book-detail' book.pk %}" class="book-card"> <!-- Přebíráme book-card třídu -->
+        <div class="col-md-4 mb-3">
+            <a href="{% url 'book-detail' book.pk %}" class="book-card">
                 {% if book.cover_image %}
-                    <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}" style="object-fit: cover; height: 200px;">
+                    <img src="{{ book.cover_image.url }}" class="card-img" style="object-fit: cover; height: 200px;">
                 {% endif %}
-                <div class="card-body text-center"> <!-- Vycentrování textů -->
+                <div class="card-body text-center">
                     <h5 class="book-title">{{ book.title }}</h5>
                     <p class="book-author">{{ book.author }}</p>
+                    <p class="book-genre">{{ book.genre }}</p>
                     {% if book.avg_rating %}
                         {% with book.avg_rating|floatformat:0 as stars %}
                             <p class="text-warning mb-0">

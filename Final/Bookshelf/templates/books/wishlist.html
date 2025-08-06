@@ -7,18 +7,15 @@
 
 <div class="row">
     {% for book in books %}
-        <div class="col-6 col-md-3 mb-3"> <!-- 4 položky na řádku -->
-            <a href="{% url 'book-detail' book.pk %}" class="book-card"> <!-- Přebíráme book-card třídu -->
+        <div class="col-6 col-md-3 mb-3">
+            <a href="{% url 'book-detail' book.pk %}" class="book-card">
                 <div class="card-body text-center">
-                    <!-- Obrázek knihy -->
                     {% if book.cover_image %}
-                        <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}">
+                        <img src="{{ book.cover_image.url }}" class="card-img-top">
                     {% endif %}
-                    <!-- Název knihy -->
                     <h5 class="book-title">{{ book.title }}</h5>
-                    <!-- Autor -->
                     <p class="book-author">{{ book.author }}</p>
-                    <!-- Hodnocení -->
+                    <p class="book-genre">{{ book.genre }}</p>
                     {% if book.avg_rating %}
                         {% with book.avg_rating|floatformat:0 as stars %}
                             <p class="text-warning mb-0">
@@ -42,4 +39,5 @@
         <p class="text-muted">Nemáte žádné knihy ve wishlistu.</p>
     {% endfor %}
 </div>
+
 {% endblock %}

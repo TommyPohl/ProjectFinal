@@ -5,10 +5,9 @@
 
 <div class="row">
     {% for genre in genres %}
-        <div class="col-6 col-md-2">  <!-- 6 žánrů na větších obrazovkách -->
-            <!-- Odkaz obklopující celé pole -->
+        <div class="col-6 col-md-2">
             <a href="{% url 'genre-detail' genre.genre %}" class="card-item">
-                <div class="genre-name">{{ genre.genre }}</div> <!-- Zobrazení názvu žánru -->
+                <div class="genre-name">{{ genre.genre }}</div>
                 <span class="badge bg-secondary rounded-pill">{{ genre.count }}</span>
             </a>
         </div>
