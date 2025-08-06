@@ -20,7 +20,7 @@ class BookListView(ListView):
     model = Book
     template_name = 'books/book_list.html'
     context_object_name = 'books'
-    paginate_by = 12
+    paginate_by = 24
 
     def get_queryset(self):
         queryset = Book.objects.annotate(avg_rating=Avg('rating__stars'))

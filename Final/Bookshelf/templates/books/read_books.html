@@ -7,8 +7,8 @@
 
 <div class="row">
     {% for book in books %}
-        <div class="col-md-3 mb-3"> <!-- 4 položky na řádku -->
-            <a href="{% url 'book-detail' book.pk %}" class="book-card"> <!-- Přebíráme book-card třídu -->
+        <div class="col-md-3 mb-3">
+            <a href="{% url 'book-detail' book.pk %}" class="book-card">
                 {% if book.cover_image %}
                     <img src="{{ book.cover_image.url }}" class="card-img-top" alt="{{ book.title }}">
                 {% endif %}

@@ -100,7 +100,7 @@ footer {
     align-items: center;
     transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
     height: 80px;  /* Zajištění jednotné výšky pro všechny karty */
-    width: 180px;  /* Fixní šířka pro všechny štítky */
+    width: 200px;  /* Fixní šířka pro všechny štítky */
     text-decoration: none;
     border-radius: 15px;
     box-sizing: border-box;
@@ -204,6 +204,7 @@ footer {
 
 /* Hodnocení knihy */
 .book-card .book-rating {
+    text-align: center;
     font-size: 1rem;
     color: white;
     margin-top: 10px;
@@ -322,3 +323,11 @@ select.form-select:focus {
     height: 15px;
 }
 
+.custom-input {
+    max-width: 500px; /* Maximální šířka textového pole */
+    width: 100%;      /* Zajistí, že pole nebude širší než kontejner */
+}
+
+.input-group .btn {
+    margin-left: -1px;  /* Tlačítko bude hned vedle textového pole */
+}

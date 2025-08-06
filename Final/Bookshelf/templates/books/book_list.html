@@ -37,16 +37,16 @@
             <label for="sort" class="form-label">Řadit podle</label>
             <select name="sort" id="sort" class="form-select">
                 <option value="">-- Výchozí --</option>
-                <option value="title" {% if sort_by == "title" %}selected{% endif %}>Název (A–Z)</option>
-                <option value="title_desc" {% if sort_by == "title_desc" %}selected{% endif %}>Název (Z–A)</option>
-                <option value="author" {% if sort_by == "author" %}selected{% endif %}>Autor (A–Z)</option>
-                <option value="author_desc" {% if sort_by == "author_desc" %}selected{% endif %}>Autor (Z–A)</option>
-                <option value="genre" {% if sort_by == "genre" %}selected{% endif %}>Žánr (A–Z)</option>
-                <option value="genre_desc" {% if sort_by == "genre_desc" %}selected{% endif %}>Žánr (Z–A)</option>
-                <option value="location" {% if sort_by == "location" %}selected{% endif %}>Umístění (A–Z)</option>
-                <option value="location_desc" {% if sort_by == "location_desc" %}selected{% endif %}>Umístění (Z–A)</option>
-                <option value="published" {% if sort_by == "published" %}selected{% endif %}>Datum přidání (nejnovější)</option>
-                <option value="published_desc" {% if sort_by == "published_desc" %}selected{% endif %}>Datum přidání (nejstarší)</option>
+            <option value="title" {% if sort_by == "title" %}selected{% endif %}>Název (A–Z)</option>
+            <option value="title_desc" {% if sort_by == "title_desc" %}selected{% endif %}>Název (Z–A)</option>
+            <option value="author" {% if sort_by == "author" %}selected{% endif %}>Autor (A–Z)</option>
+            <option value="author_desc" {% if sort_by == "author_desc" %}selected{% endif %}>Autor (Z–A)</option>
+            <option value="genre" {% if sort_by == "genre" %}selected{% endif %}>Žánr (A–Z)</option>
+            <option value="genre_desc" {% if sort_by == "genre_desc" %}selected{% endif %}>Žánr (Z–A)</option>
+            <option value="location" {% if sort_by == "location" %}selected{% endif %}>Umístění (A–Z)</option>
+            <option value="location_desc" {% if sort_by == "location_desc" %}selected{% endif %}>Umístění (Z–A)</option>
+            <option value="published" {% if sort_by == "published" %}selected{% endif %}>Datum přidání (nejnovější)</option>
+            <option value="published_desc" {% if sort_by == "published_desc" %}selected{% endif %}>Datum přidání (nejstarší)</option>
             </select>
         </div>
         <div class="col-md-10">
@@ -108,12 +108,27 @@
     {% if page_obj.has_previous %}
       <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Předchozí</a></li>
     {% endif %}
-    <li class="page-item disabled"><span class="page-link">Stránka {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}</span></li>
+
+    <!-- Vložení formuláře pro přechod na konkrétní stránku -->
+    <form method="get" class="d-inline">
+      <div class="input-group">
+        <input type="number" name="page" class="form-control" value="{{ page_obj.number }}" min="1" max="{{ page_obj.paginator.num_pages }}">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="submit">Přejít</button>
+        </div>
+      </div>
+    </form>
+
+    <li class="page-item disabled">
+      <span class="page-link">Stránka {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}</span>
+    </li>
+
     {% if page_obj.has_next %}
       <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Další</a></li>
     {% endif %}
   </ul>
 </nav>
 {% endif %}
+
 
 {% endblock %}
