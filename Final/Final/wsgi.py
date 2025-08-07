@@ -16,7 +16,6 @@ path = '/home/tadyjetomovo/.virtualenvs/tadyjetomovo.pythonanywhere.com/lib/pyth
 if path not in sys.path:
     sys.path.append(path)
 
-# Cesta k tvému projektu
 path = '/home/tadyjetomovo/tadyjetomovo.pythonanywhere.com/Final'
 if path not in sys.path:
     sys.path.append(path)
