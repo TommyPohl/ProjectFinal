@@ -12,6 +12,15 @@ import sys
 
 from django.core.wsgi import get_wsgi_application
 
+path = '/home/tadyjetomovo/.virtualenvs/tadyjetomovo.pythonanywhere.com/lib/python3.x/site-packages'
+if path not in sys.path:
+    sys.path.append(path)
+
+# Cesta k tvému projektu
+path = '/home/tadyjetomovo/tadyjetomovo.pythonanywhere.com/Final'
+if path not in sys.path:
+    sys.path.append(path)
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Final.settings')
 
 application = get_wsgi_application()
